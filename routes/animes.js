@@ -98,6 +98,57 @@ router.post('/', upload.single('image'), (req, res) => {
   res.redirect('/animes');
 });
 
+
+
+
+
+
+
+
+
+
+
+
+//bloco
+router.get('/createblock/:id', function (req, res, next) {
+  const id = parseInt(req.params.id); // Obtém o ID da rota e converte para número
+  const db = getDbData(); // Carrega os dados do JSON
+  
+  // Filtra o item correspondente ao ID
+  const k = db.find(item => item.id === id);
+
+  if (!k) {
+    // Retorna 404 se o ID não for encontrado
+    return res.status(404).send('Anime não encontrado');
+  }
+
+  // Renderiza a página com os dados do anime correspondente
+  res.render('modulos/createblock', {
+    title: k.title,
+    url: 'animes',
+    content: '../modulos/animes',
+    db_url: k // Passa os dados do anime para o template
+  });
+});
+
+router.post('/addblock/:id', upload.single('image'), (req, res) => {
+  const db = getDbData(); 
+  const k = db.find(item => item.id === parseInt(id));
+
+  const lastId = Math.max(...k.long_description.map(u => u.id), 0);
+
+  const newData = {
+    id: lastId + 1,
+    title: req.body.title,
+    text: req.body.text,
+    image: req.file ? `/images/animes/${req.file.filename}` : null,
+  };
+
+  k.long_description.push(newData);
+  saveDbData(k.long_description);
+    res.redirect('/animes/'+id)
+});
+
 router.post('/att/:id', function (req, res, next) {
   const db = getDbData(); // Carregar os dados do JSON
   const id = req.params.id;

@@ -103,5 +103,26 @@
       }
     },
     "is_deleted": false
+  },
+  {
+    "id": 1,
+    "title": "Deadman Wonderland",
+    "description": "essa é uma descrição",
+    "image": "/images/animes/photo - detoro wonderlendeta.jpeg",
+    "long_description": [
+      {
+        "id": 1,
+        "title": "Deadman",
+        "text": "asdadsasd",
+        "image": "sasda"
+      },
+      {
+        "id": 2,
+        "title": "Deadman",
+        "text": "asdadsasd",
+        "image": "sasda"
+      }
+    ],
+    "is_deleted": false
   }
 ]
