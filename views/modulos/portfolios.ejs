@@ -1,0 +1,230 @@
+<%- include('../components/layout_sup') %>
+
+<style>
+    /* Estilo global para melhorar o contraste da página */
+    body {
+        background-color: #121212;
+        color: white;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Centralização do título e do parágrafo explicativo */
+    h2, h4 {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    h2 {
+        margin-top: 20px;
+    }
+
+    .text-center p {
+        margin-bottom: 40px;
+        font-size: 1.1rem;
+    }
+
+    /* Adicionando espaçamento e borda aos elementos de texto */
+    .container {
+        margin-top: 40px;
+    }
+
+    .container .row {
+        margin-bottom: 40px;
+    }
+
+    /* Botões */
+    .btn-outline-primary {
+        border: 2px solid #ff7f50;
+        color: #ff7f50;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #ff7f50;
+        color: white;
+    }
+
+    /* Melhorando a responsividade do grid (cards) */
+    .row-cols-1 {
+        margin-bottom: 10px;
+    }
+
+    /* Rodapé e outros elementos, melhorando espaçamento */
+    footer {
+        margin-top: 60px;
+    }
+
+    /* Centralização dos botões dentro da card body */
+    .card-body .btn {
+        margin-top: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        border-color: #e0a800;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #c82333;
+    }
+
+    /* Card Header */
+    .card-header {
+        background-color: #28a745;
+        font-weight: bold;
+    }
+
+    /* Melhoria de espaçamento entre o conteúdo das cards */
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+
+    /* Tabela */
+    .table {
+        background-color: #333;
+        color: white;
+    }
+
+    .table th {
+        background-color: #ff7f50;
+        color: white;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #222;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #444;
+    }
+</style>
+
+<h2 class="text-center my-3 text-white">Portfólio</h2>
+
+<div class="mt-4 text-white text-center">
+    <p>Explore alguns projetos que realizei durante minha jornada acadêmica!! Seja em trabalhos de escola, projetos individuais ou cursos complementares.</p>
+</div>
+
+<div class="container text-white">
+    <h4 class="text-center my-5">Projetos</h4>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <% db_url.forEach(f => { %>
+            <% if(f.is_deleted === false) { %>
+                <div class="col-4 my-3">
+                    <div class="card bg-dark text-white" style="width: 18rem;">
+                        <div class="d-flex align-items-center justify-content-center bg-primary"
+                            style="width: 286px; height: 286px; overflow: hidden;">
+                            <% if(f.image === 0 || f.image === '') { %>
+                                <img src="/images/no image.png" alt="Profile"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                            <% } else { %>
+                                <img src="<%= f.image %>" alt="Profile"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                            <% } %>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= f.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%= f.description %>
+                            </p>
+                            <div class="row">
+                                <div class="col-4"><a href="portfolios/nome/<%= f.id %>"
+                                        class="btn btn-primary">Veja!</a>
+                                </div>
+                                <div class="col-4">
+                                    <form action="portfolios/edit/<%= f.id %>" method="get">
+                                        <button type="submit" class="btn btn-warning">Editar</button>
+                                    </form>
+                                </div>
+                                <div class="col-4">
+                                    <form action="/portfolios/att/<%= f.id %>" method="post">
+                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        <% }); %>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <form action="/portfolios/create" method="get">
+                <button type="submit" class="btn btn-outline-primary float-end">
+                    Adicionar Novo Projeto
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="container">
+            <table class="table table-bordered text-center table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="table-primary">Algumas Skills</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Programação: Realizei trabalhos acadêmicos em equipe utilizando as linguagens Python e Java.</td>
+                    </tr>
+                    <tr>
+                        <td>Trabalho em equipe: Colaborei com colegas em atividades acadêmicas, sempre respeitando e contribuindo para o crescimento coletivo.</td>
+                    </tr>
+                    <tr>
+                        <td>Lógica Matemática: Demonstrei raciocínio lógico e matemático em olimpíadas de matemática, onde conquistei três medalhas consecutivas.</td>
+                    </tr>
+                    <tr>
+                        <td>🔥 Entusiasta de Tecnologia</td>
+                    </tr>
+                    <tr>
+                        <td>🔭 Atualmente estou estudando no <a href="https://ifce.edu.br/fortaleza"
+                                target="_blank">Instituto Federal de Ciências e Tecnologia do Ceará - Campus Fortaleza</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('../components/layout_inf') %>

@@ -1,0 +1,62 @@
+<style>
+  body {
+      background-image: url('/images/aurora boreal.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      /* A imagem ficará fixa ao rolar */
+  }
+</style>
+
+<nav class="navbar navbar-expand bg-dark border-bottom border-body" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Site Pessoal</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- <li class="nav-item">
+          <a class="nav-link active" href="/">Sobre Mim</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="/portfolios">Portifólio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/animes">Animes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/jogos">Jogos</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <div class="d-flex align-items-center justify-content-center rounded-circle bg-primary"
+              style="width: 30px; height: 30px; overflow: hidden;">
+              <img
+                src="/images/icon-profile-image.jpg"
+                alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#!">Ver Conta</a></li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li><a class="dropdown-item" href="/users/login">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      <!-- <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+        </form> -->
+    </div>
+  </div>
+</nav>

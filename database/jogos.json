@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "title": "Red Dead Redemption 2",
+    "description": "",
+    "image": "/images/jogos/photo - rdr2.jpg",
+    "long_description": {
+      "about": {
+        "text": "Red Dead Redemption 2 é um épico de ação e aventura ambientado no fim da era do Velho Oeste, oferecendo uma narrativa profunda e uma imersão que poucos jogos conseguem proporcionar. O jogo segue Arthur Morgan, um membro da famosa gangue Van der Linde, enquanto ele lida com as dificuldades de sua vida fora da lei, caçando recompensas e tentando sobreviver em um mundo que está mudando rapidamente. A ambientação realista, a dinâmica de mundo aberto e a profundidade dos personagens fazem de Red Dead Redemption 2 uma experiência única e inesquecível."
+      },
+      "for_me": {
+        "text": "Um dos melhores jogos que já experimentei, com uma história que me emocionou profundamente e um mundo aberto incrivelmente imersivo. O detalhamento do cenário, a profundidade das missões e os dilemas morais que o protagonista enfrenta me fizeram refletir sobre o que significa viver fora da lei. Cada momento do jogo me fez sentir que estava realmente dentro daquele universo, explorando, caçando e interagindo com seus personagens complexos."
+      }
+    },
+    "is_deleted": false
+  },
+  {
+    "id": 2,
+    "title": "Grand Theft Auto - San Andreas",
+    "description": null,
+    "image": "/images/jogos/photo - gtasa.jpeg",
+    "long_description": {
+      "about": {
+        "text": "San Andreas é um dos maiores clássicos dos jogos de mundo aberto. Desenvolvido pela Rockstar Games, o jogo mistura ação, drama e humor em um enredo épico. O protagonista, CJ, retorna à sua cidade natal para investigar o assassinato de sua mãe e acaba se envolvendo em uma guerra de gangues, corrupção policial e outras tramas. Com uma cidade enorme para explorar, missões diversificadas e a famosa liberdade para fazer o que quiser, o jogo redefiniu os jogos de mundo aberto e teve um impacto cultural enorme."
+      },
+      "for_me": {
+        "text": "É um jogo que marcou minha infância e me fez explorar cada canto de sua vasta cidade. A enorme variedade de atividades, desde missões de história até pilotar aviões e carros esportivos, me proporcionaram uma sensação de liberdade única. Lembro-me das horas passadas jogando, seja em busca de uma missão ou apenas fazendo caos nas ruas de Los Santos. Além disso, a trilha sonora, a trama e os personagens memoráveis só aumentam a grandiosidade deste jogo."
+      }
+    },
+    "is_deleted": false
+  },
+  {
+    "id": 3,
+    "title": "Resident Evil 4 Remake",
+    "description": null,
+    "image": "/images/jogos/photo - re4r.jfif",
+    "long_description": {
+      "about": {
+        "text": "Resident Evil 4 Remake traz de volta o clássico de 2005 com gráficos modernos, jogabilidade refinada e uma atmosfera ainda mais aterrorizante. O jogo segue Leon S. Kennedy enquanto ele é enviado para resgatar a filha do presidente dos EUA, que foi sequestrada por um culto misterioso na Espanha. Com melhorias nos controles e uma nova perspectiva, o remake não apenas honra o original, mas também o atualiza para os padrões modernos, tornando a experiência ainda mais imersiva e intensa."
+      },
+      "for_me": {
+        "text": "Uma experiência nostálgica renovada, que trouxe o melhor do original com melhorias significativas. Desde os novos gráficos e a nova mecânica de combate até o refinamento dos diálogos e das cenas, esse remake me fez redescobrir um dos meus jogos favoritos de todos os tempos. Os sustos e a tensão que eu sentia na versão original foram amplificados, e isso tornou o jogo ainda mais envolvente. O fato de poder revisitar essa história com uma nova perspectiva foi uma verdadeira viagem no tempo."
+      }
+    },
+    "is_deleted": false
+  },
+  {
+    "id": 4,
+    "title": "Resident Evil 4 (2005)",
+    "description": null,
+    "image": "/images/jogos/photo - re4.jpg",
+    "long_description": {
+      "about": {
+        "text": "Resident Evil 4 é considerado um dos maiores marcos da história dos jogos, redefinindo o gênero de survival horror. Com uma jogabilidade inovadora que mistura ação, quebra-cabeças e elementos de horror psicológico, o jogo segue Leon S. Kennedy enquanto ele tenta resgatar a filha do presidente em uma aldeia isolada na Espanha. A jogabilidade de ângulo fixo foi substituída por uma câmera por cima do ombro, criando uma experiência mais tensa e imersiva. O jogo também introduziu novos inimigos, como os Ganados, que substituíram os tradicionais zumbis da franquia."
+      },
+      "for_me": {
+        "text": "Um clássico que moldou minha visão sobre jogos de terror e ação. Foi o primeiro jogo da franquia que realmente me envolveu em uma trama intensa e com uma jogabilidade revolucionária para a época. As mecânicas de combate, o design de níveis e a introdução de novos inimigos foram inovadores, e o jogo me desafiou a repensar o gênero survival horror. É, sem dúvida, um dos jogos mais importantes da minha coleção."
+      }
+    },
+    "is_deleted": false
+  },
+  {
+    "id": 5,
+    "title": "Resident Evil Revelations",
+    "description": null,
+    "image": "/images/jogos/photo - rerev.jpg",
+    "long_description": {
+      "about": {
+        "text": "Resident Evil Revelations é uma mistura perfeita do horror clássico da franquia com uma narrativa intrigante e um cenário único em alto-mar. O jogo se passa a bordo de um navio abandonado, onde Claire Redfield e Jill Valentine investigam uma ameaça bioterrorista. A jogabilidade é mais focada em sobrevivência e tensão, com encontros desafiadores e atmosfera de claustrofobia. Revelations também trouxe o retorno de uma mecânica de exploração mais estratégica e momentos de terror psicológico que prendem o jogador."
+      },
+      "for_me": {
+        "text": "É um jogo que me manteve preso à tela, com uma atmosfera única e desafiadora. O cenário no navio abandonado me fez sentir o verdadeiro medo do desconhecido e da ameaça iminente. As mecânicas de sobrevivência, com a necessidade de administrar recursos e explorar cada canto, me fizeram imergir ainda mais na história. Além disso, a trama e os personagens, como Jill e Chris, são elementos essenciais que tornam a experiência ainda mais envolvente."
+      }
+    },
+    "is_deleted": false
+  },
+  {
+    "id": 6,
+    "title": "Super Mario RPG",
+    "description": null,
+    "image": "/images/jogos/photo - smrpg.jpg",
+    "long_description": {
+      "about": {
+        "text": "Super Mario RPG é uma fusão brilhante entre o mundo encantado do Mario e os elementos de RPG. Lançado para o Super Nintendo, o jogo introduziu mecânicas de combate por turnos, desenvolvimento de personagens e um enredo envolvente em um universo totalmente novo. Mario, juntamente com um elenco de personagens memoráveis, como Mallow, Geno e Bowser, embarca em uma aventura para salvar o mundo de um novo inimigo, o Smithy Gang. A combinação de humor, mecânicas acessíveis e uma narrativa cativante torna Super Mario RPG um dos maiores clássicos de sua época."
+      },
+      "for_me": {
+        "text": "É um dos jogos mais criativos que já joguei, com personagens memoráveis e uma trilha sonora incrível. A mistura de elementos de RPG com o mundo do Mario foi uma experiência única que me fez investir nas mecânicas de combate e na construção do mundo. Cada batalha, cada interação com os personagens e cada segredo escondido me fez sentir parte de algo grandioso. A magia do jogo ainda perdura, mesmo anos após seu lançamento."
+      }
+    },
+    "is_deleted": false
+  },
+  {
+    "id": 7,
+    "title": "Super Mario RPG Remake",
+    "description": null,
+    "image": "/images/jogos/photo - smrpg remake.avif",
+    "long_description": {
+      "about": {
+        "text": "O remake de Super Mario RPG não apenas traz gráficos atualizados, mas também mantém o charme e a magia do original. Ao modernizar a arte e os efeitos sonoros, o remake se apresenta de forma vibrante, agradando tanto os fãs do jogo original quanto os novos jogadores. A história clássica e as mecânicas de RPG que fizeram o original brilhar continuam presentes, mas com melhorias que aprimoram a jogabilidade e a experiência geral."
+      },
+      "for_me": {
+        "text": "Uma experiência nostálgica com um toque moderno que reacendeu minha paixão por este clássico. Os gráficos atualizados, as novas animações e a sonoridade revitalizada me fizeram reviver as emoções que senti ao jogar a versão original, mas com um frescor que só um remake pode oferecer. Foi incrível revisitar esse jogo com uma nova perspectiva, aproveitando tanto o que foi mantido quanto as melhorias implementadas."
+      }
+    },
+    "is_deleted": false
+  }
+]

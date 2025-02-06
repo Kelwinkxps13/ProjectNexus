@@ -1,0 +1,24 @@
+<%- include('../components/layout_sup') %>
+
+<div class="mt-5">
+    <div class="row">
+        <!-- About Section -->
+        <div class="col-12 mb-5">
+            <h2 class="text-info fw-bold">Sobre <%= db_url.title %></h2>
+            <p class="text-light fs-4">
+                <%= db_url.long_description.about.text %>
+            </p>
+        </div>
+
+        <!-- For Me Section -->
+        <div class="col-12">
+            <h2 class="text-info fw-bold">O que <%= db_url.title %> significa para mim</h2>
+            <p class="text-light fs-4">
+                <%= db_url.long_description.for_me.text %>
+            </p>
+        </div>
+    </div>
+</div>
+
+<%- include('../components/layout_inf') %>
+
