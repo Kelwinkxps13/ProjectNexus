@@ -1,0 +1,135 @@
+<%- include('../../components/layout_sup') %>
+
+<style>
+/* Estilo para o card */
+.custom-card {
+    background-color: #222;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.custom-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para o cabeçalho do card */
+.custom-header {
+    background: linear-gradient(90deg, rgba(29, 53, 87, 1) 0%, rgba(8, 45, 72, 1) 100%);
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/* Estilo dos inputs */
+.custom-input {
+    background-color: #333;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 8px;
+    padding: 15px;
+    transition: border-color 0.3s ease;
+}
+
+/* Cor do texto de placeholder */
+.custom-input::placeholder {
+    color: #B0B0B0;  /* Cor clara para os placeholders */
+}
+
+/* Quando o input é focado */
+.custom-input:focus {
+    border-color: #7DCEA0;
+    background-color: #555; /* Cor mais clara para o fundo */
+    color: #fff; /* Cor branca para o texto */
+    outline: none;
+}
+
+/* Títulos das labels */
+label {
+    color: #EAEAEA;
+    font-weight: bold;
+}
+
+/* Botão de envio */
+.custom-btn {
+    background-color: #28a745;
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.custom-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Adicionando espaço nos campos */
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Ajustando o tamanho da tela */
+@media (max-width: 768px) {
+    .custom-card {
+        margin: 10px;
+    }
+
+    .custom-btn {
+        padding: 12px 25px;
+    }
+
+    .custom-input {
+        padding: 12px;
+    }
+}
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-12">
+            <div class="card custom-card">
+                <div class="card-header custom-header text-center fs-4 py-4">
+                    <strong>Formulário de Edição de <%= page %></strong>
+                </div>
+                <div class="card-body p-5">
+                    <form action="/<%= url %>/update" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="<%= db.id %>">
+                        
+                        <div class="mb-4">
+                            <label for="title" class="form-label">Nome</label>
+                            <input name="title" type="text" class="form-control custom-input" value="<%= db.title %>" placeholder="Digite o nome do projeto" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="description" class="form-label">Descrição</label>
+                            <textarea name="description" rows="4" class="form-control custom-input" placeholder="Descreva o que é isso" required><%= db.description %></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="image" class="form-label">Alterar Imagem</label>
+                            <input name="image" type="file" class="form-control custom-input">
+                            <% if (db.image) { %>
+                                <div class="mt-2">
+                                    <img src="<%= db.image %>" alt="Imagem Atual" class="img-fluid" style="max-width: 200px;">
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn custom-btn">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../components/layout_inf') %>
