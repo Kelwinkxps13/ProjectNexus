@@ -99,8 +99,9 @@ label {
                     <strong>Formulário de Edição de <%= page %></strong>
                 </div>
                 <div class="card-body p-5">
-                    <form action="/<%= url %>/update" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="id" value="<%= db.id %>">
+                    <form action="/theme/<%= id %>/update" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id_item" value="<%= db.id %>">
+                        <input type="hidden" name="id" value="<%= id %>">
                         
                         <div class="mb-4">
                             <label for="title" class="form-label">Nome</label>

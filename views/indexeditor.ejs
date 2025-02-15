@@ -1,4 +1,4 @@
-<%- include('../../components/layout_sup') %>
+<%- include('components/layout_sup') %>
 
 <style>
 /* Estilo para o card */
@@ -74,21 +74,6 @@ label {
 .mb-4 {
     margin-bottom: 1.5rem !important;
 }
-
-/* Ajustando o tamanho da tela */
-@media (max-width: 768px) {
-    .custom-card {
-        margin: 10px;
-    }
-
-    .custom-btn {
-        padding: 12px 25px;
-    }
-
-    .custom-input {
-        padding: 12px;
-    }
-}
 </style>
 
 <div class="container my-5">
@@ -96,28 +81,26 @@ label {
         <div class="col-lg-8 col-md-10 col-12">
             <div class="card custom-card">
                 <div class="card-header custom-header text-center fs-4 py-4">
-                    <strong> Formulário de Criação de bloco</strong>
+                    <strong>Formulário de Edição da Tela Inicial</strong>
                 </div>
                 <div class="card-body p-5">
-                    <form action="/theme/<%= id %>/storeblock" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="id_item" value="<%= id_item %>">
+                    <form action="/update" method="POST" >
                         <div class="mb-4">
-                            <label for="title" class="form-label">Nome</label>
-                            <input name="title" type="text" class="form-control custom-input" id="title" placeholder="Digite o nome do projeto" required>
+                            <label for="title" class="form-label">Título</label>
+                            <input name="title" type="text" class="form-control custom-input" id="title" placeholder="Digite o nome do projeto" value="<%= main.title %>" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="subtitle" class="form-label">Subtitle</label>
+                            <input name="subtitle" type="text" class="form-control custom-input" id="subtitle" placeholder="Digite o nome do projeto" value="<%= main.subtitle %>" required>
                         </div>
                         <div class="mb-4">
                             <label for="description" class="form-label">Descrição</label>
-                            <textarea name="description" rows="4" class="form-control custom-input" id="description" placeholder="Descreva o que é isso" required></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label for="image" class="form-label">Adicionar Imagem</label>
-                            <input name="image" type="file" class="form-control custom-input" id="image">
+                            <textarea name="description" rows="4" class="form-control custom-input" id="description" placeholder="Descreva o que é isso" required><%= main.description %></textarea>
                         </div>
 
                         <div class="text-center mt-4">
                             <button type="submit" class="btn custom-btn">Enviar</button>
                         </div>
-                        
                     </form>
                 </div>
             </div>
@@ -125,4 +108,4 @@ label {
     </div>
 </div>
 
-<%- include('../../components/layout_inf') %>
+<%- include('components/layout_inf') %>

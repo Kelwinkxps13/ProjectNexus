@@ -1,4 +1,4 @@
-logica
+<!-- logica
   sistema de rotas
 
   se primeira vez no index:    <<<<<<<<< PARTE 1 >>>>>>>>>>> COMPLETED
@@ -14,7 +14,7 @@ logica
       {
         o sistema atualiza o json generic com os dados da main, e envia novamente para o index.
       }
-  se ja criou a main:        <<<<<<<<< PARTE 2 >>>>>>>>>>>
+  se ja criou a main:        <<<<<<<<< PARTE 2 >>>>>>>>>>> COMPLETED
     {
       o sistema identifica que há dados no json gereric, o que significa que nao sera mais a primeira vez,
       e exibirá os dados.
@@ -29,9 +29,9 @@ logica
       quando terminar de criar o primeiro tema:
         redirecionar para index novamente;
         {
-          o sistema entende que o objeto "themes" não estará mais vazio, e redireciona para index.
+          o sistema entende que o objeto "themes" não estará mais vazio, e redireciona para o tema.
         }
-  se ja criou a main E criou o primeiro tema: <<<<<<<<< PARTE 3 >>>>>>>>>>>
+  se ja criou a main: <<<<<<<<< PARTE 3 >>>>>>>>>>>
     aparece do lado o menu de editor;
     aparece o menu do tema criado;
     {
@@ -39,32 +39,43 @@ logica
       apagar o tema criado.
       caso ele nao tenha mais nenhum, aparece a mensagem de criar tema novamente.
     }
-endlogica
+endlogica -->
 
 <!-- title 
 subtitle
 description1
 description 2 -->
 
-<%- include('../components/layout_sup') %>
+<%- include('components/layout_sup') %>
 
 <div class="container mt-5 text-dark">
   <div class="text-center">
-    <h3 class="display-4 fw-bold">Title 👋</h3>
-    <h3 class="lead">subtitle</h3>
+    <h3 class="display-4 fw-bold"> <%= db_main.title %> 👋</h3>
+    <h3 class="lead"><%= db_main.subtitle %></h3>
   </div>
 
   <div class="mt-5">
     <p class="lead">
-      description 1
-    </p>
-    <p class="lead">
-      description 2
+      <%= db_main.description %>
     </p>
   </div>
 </div>
 
-<%- include('../components/layout_inf') %>
+<% if(final_verification){ %>
+  <h2 class="text-center"> Não tem nenhum tema? adicione algum!</h2>
+
+            <div class="row mt-4">
+                <div class="col">
+                    <form action="/theme/create" method="get">
+                        <button type="submit" class="btn btn-outline-primary float-end">
+                            Adicionar Novo tema
+                        </button>
+                    </form>
+                </div>
+            </div>
+<% } %>
+
+<%- include('components/layout_inf') %>
 
 <style>
   /* Text styles */

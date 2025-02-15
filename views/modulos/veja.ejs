@@ -11,7 +11,7 @@
 
         <div class="row mt-4">
             <div class="col">
-                <form action="/<%= url %>/createblock/<%= id %>" method="get">
+                <form action="/theme/<%= id %>/createblock/<%= id_item %>" method="get">
                     <button type="submit" class="btn btn-outline-primary float-end">
                         Adicionar Novo Bloco
                     </button>
@@ -36,10 +36,10 @@
                         </div>
                         <div class="row mt-4">
                             <div class="col d-flex gap-2">
-                                <form action="/<%= url %>/editblock/<%= id %>/<%= f.id %>" method="get">
+                                <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>" method="get">
                                     <button type="submit" class="btn btn-warning">Editar</button>
                                 </form>
-                                <form action="/<%= url %>/destroyblock/<%= id %>/<%= f.id %>" method="post">
+                                <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>" method="post">
                                     <button type="submit" class="btn btn-danger">Excluir</button>
                                 </form>
                             </div>
@@ -67,10 +67,10 @@
                         <!-- editar bloco -->
                         <div class="row mt-4">
                             <div class="col d-flex gap-2">
-                                <form action="/<%= url %>/editblock/<%= id %>/<%= f.id %>" method="get">
+                                <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>" method="get">
                                     <button type="submit" class="btn btn-warning">Editar</button>
                                 </form>
-                                <form action="/<%= url %>/destroyblock/<%= id %>/<%= f.id %>" method="post">
+                                <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>" method="post">
                                     <button type="submit" class="btn btn-danger">Excluir</button>
                                 </form>
                             </div>
@@ -82,7 +82,7 @@
 <!-- adicionar novo bloco -->
 <div class="row mt-4">
     <div class="col">
-        <form action="/<%= url %>/createblock/<%= id %>" method="get">
+        <form action="/theme/<%= id %>/createblock/<%= id_item %>" method="get">
             <button type="submit" class="btn btn-outline-primary float-end">
                 Adicionar Novo Bloco
             </button>

@@ -76,25 +76,7 @@ label {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Adicionando espaço nos campos */
-.mb-4 {
-    margin-bottom: 1.5rem !important;
-}
 
-/* Ajustando o tamanho da tela */
-@media (max-width: 768px) {
-    .custom-card {
-        margin: 10px;
-    }
-
-    .custom-btn {
-        padding: 12px 25px;
-    }
-
-    .custom-input {
-        padding: 12px;
-    }
-}
 </style>
 
 <div class="container my-5">
@@ -102,10 +84,10 @@ label {
         <div class="col-lg-8 col-md-10 col-12">
             <div class="card custom-card">
                 <div class="card-header custom-header text-center fs-4 py-4">
-                    <strong>Formulário de Criação de Tema></strong>
+                    <strong>Formulário de Criação de Tema</strong>
                 </div>
                 <div class="card-body p-5">
-                    <form action="/<%= url %>/store" method="POST" enctype="multipart/form-data">
+                    <form action="/theme/store" method="POST">
                         <div class="mb-4">
                             <label for="title" class="form-label">Nome</label>
                             <input name="title" type="text" class="form-control custom-input" id="title" placeholder="Digite o nome do projeto" required>

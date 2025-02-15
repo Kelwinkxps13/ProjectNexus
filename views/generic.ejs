@@ -1,4 +1,4 @@
-<%- include('../components/layout_sup') %>
+<%- include('components/layout_sup') %>
 
     <style>
         body {
@@ -112,21 +112,21 @@
         }
     </style>
 
-    <h2 class="text-center my-3">Animes</h2>
+    <h2 class="text-center my-3"><%= db_theme.title %></h2>
 
     <div class="mt-4 text-center">
-        <p>Explore animes de meu interesse na tabela!! Adicione, edite ou exclua animes facilmente.</p>
+        <p><%= db_theme.description %></p>
     </div>
 
     <div class="container">
-        <% if (is_deleted==total ) {%>
-            <h2 class="text-center"> Não tem nenhum anime? adicione algum!</h2>
+        <% if (final_verification) {%>
+            <h2 class="text-center"> Não há nada para mostar? Adicione algo!</h2>
 
             <div class="row mt-4">
                 <div class="col">
-                    <form action="/animes/create" method="get">
+                    <form action="/theme/<%= db_theme.id %>/create" method="get">
                         <button type="submit" class="btn btn-outline-primary float-end">
-                            Adicionar Novo Anime
+                            Adicionar
                         </button>
                     </form>
                 </div>
@@ -155,16 +155,16 @@
                                             <%= f.description %>
                                         </p>
                                         <div class="row">
-                                            <div class="col-4"><a href="animes/show/<%= f.id %>"
+                                            <div class="col-4"><a href="/theme/<%= db_theme.id %>/show/<%= f.id %>"
                                                     class="btn btn-primary">Veja!</a>
                                             </div>
                                             <div class="col-4">
-                                                <form action="animes/edit/<%= f.id %>" method="get">
+                                                <form action="/theme/<%= db_theme.id %>/edit/<%= f.id %>" method="get">
                                                     <button type="submit" class="btn btn-warning">Editar</button>
                                                 </form>
                                             </div>
                                             <div class="col-4">
-                                                <form action="/animes/destroy/<%= f.id %>" method="post">
+                                                <form action="/theme/<%= db_theme.id %>/destroy/<%= f.id %>" method="post">
                                                     <button type="submit" class="btn btn-danger">Excluir</button>
                                                 </form>
                                             </div>
@@ -178,9 +178,9 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col">
-                        <form action="/animes/create" method="get">
+                        <form action="/theme/<%= db_theme.id %>/create" method="get">
                             <button type="submit" class="btn btn-outline-primary float-end">
-                                Adicionar Novo Anime
+                                Adicionar
                             </button>
                         </form>
                     </div>
@@ -189,4 +189,4 @@
                 <% } %>
     </div>
 
-    <%- include('../components/layout_inf') %>
+    <%- include('components/layout_inf') %>
