@@ -1,96 +1,237 @@
 <%- include('../components/layout_sup') %>
 
-<!-- forma padrao de um bloco, com titulo, texto e imagem -->
-<!-- ideia do leandro: ir alternando onde a imagem fica, uma vez na esquerda, outra na direita -->
-<div class="container-fluid my-4">
+    <style>
+        /* Estilo geral */
+        body {
+            background-color: #f4f7fc;
+            /* Fundo claro */
+            color: #2c3e50;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Estilo para a navbar */
+        .navbar {
+            background: linear-gradient(135deg, rgba(0, 150, 255, 0.8), rgba(0, 255, 150, 0.8));
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para o card */
+        .custom-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilo para o cabeçalho do card */
+        .custom-header {
+            background-color: #ffffff;
+            /* Fundo neutro para não competir com a navbar */
+            color: #2c3e50;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo dos inputs */
+        .custom-input {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            color: #2c3e50;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        /* Estilo do botão */
+        .custom-btn {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .custom-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Outros ajustes */
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        h3 {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .custom-card {
+                margin: 10px;
+            }
+
+            .custom-btn {
+                padding: 10px 20px;
+            }
+
+            .custom-input {
+                padding: 10px;
+            }
+        }
+
+        .btn {
+            border-radius: 30px;
+            /* Botões arredondados */
+            padding: 12px 30px;
+            /* Tamanho confortável para os botões */
+            font-size: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Transição suave para hover */
+        }
+
+        .btn-warning {
+            background-color: #f39c12;
+            /* Cor de fundo suave */
+            border: none;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+            /* Cor mais forte no hover */
+            transform: scale(1.05);
+            /* Aumento suave no hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            /* Aumento da sombra no hover */
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            /* Cor de fundo suave para excluir */
+            border: none;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            /* Cor mais forte no hover */
+            transform: scale(1.05);
+            /* Aumento suave no hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            /* Aumento da sombra no hover */
+        }
+    </style>
+
+    <!-- forma padrao de um bloco, com titulo, texto e imagem -->
+    <!-- ideia do leandro: ir alternando onde a imagem fica, uma vez na esquerda, outra na direita -->
+    <div class="container-fluid my-4">
 
 
-    <% if (is_deleted == total ) { %>
+        <% if (is_deleted==total ) { %>
 
-        <h2 class="text-center text-dark"> Não tem nenhum bloco? adicione algum!</h2>
+            <h2 class="text-center text-dark"> Não tem nenhum bloco? adicione algum!</h2>
 
-        <div class="row mt-4">
-            <div class="col">
-                <form action="/theme/<%= id %>/createblock/<%= id_item %>" method="get">
-                    <button type="submit" class="btn btn-outline-primary float-end">
-                        Adicionar Novo Bloco
-                    </button>
-                </form>
+            <div class="row mt-4">
+                <div class="col">
+                    <form action="/theme/<%= id %>/createblock/<%= id_item %>" method="get">
+                        <button type="submit" class="btn btn-outline-primary float-end">
+                            Adicionar Novo Bloco
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
 
-    <% } else { %>
+            <% } else { %>
 
-        <% db_url.forEach( f => { %>
-            <% if(f.is_deleted === false) { %>
+                <% db_url.forEach( f=> { %>
+                    <% if(f.is_deleted===false) { %>
 
-                <% if(f.image === null ) { %>
-                    <div class="row">
-                        <div class="col">
-                            <h2 class="text-center text-dark">
-                                <%= f.title %>
-                            </h2>
-                            <p class="text-center text-dark">
-                                <%= f.description %>
-                            </p>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col d-flex gap-2">
-                                <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>" method="get">
-                                    <button type="submit" class="btn btn-warning">Editar</button>
-                                </form>
-                                <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>" method="post">
-                                    <button type="submit" class="btn btn-danger">Excluir</button>
-                                </form>
+                        <% if(f.image===null ) { %>
+                            <div class="row">
+                                <div class="col">
+                                    <h2 class="text-center text-dark">
+                                        <%= f.title %>
+                                    </h2>
+                                    <p class="text-center text-dark">
+                                        <%= f.description %>
+                                    </p>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col d-flex gap-2">
+                                        <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>"
+                                            method="get">
+                                            <button type="submit" class="btn btn-warning">Editar</button>
+                                        </form>
+                                        <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>"
+                                            method="post">
+                                            <button type="submit" class="btn btn-danger">Excluir</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                <% } else { %>
-                    <div class="row">
-                        <div class="col-9">
-                            <div class="col">
-                                <h2 class="text-center text-dark">
-                                    <%= f.title %>
-                                </h2>
-                                <p class="text-center text-dark">
-                                    <%= f.description %>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-flex align-items-center justify-content-center bg-light"
-                                style="width: 286px; height: 286px; overflow: hidden;">
-                                <img src="<%= f.image %>" alt="Profile"
-                                    style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                        </div>
-                        <!-- editar bloco -->
-                        <div class="row mt-4">
-                            <div class="col d-flex gap-2">
-                                <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>" method="get">
-                                    <button type="submit" class="btn btn-warning">Editar</button>
-                                </form>
-                                <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>" method="post">
-                                    <button type="submit" class="btn btn-danger">Excluir</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                <% } %>
-            <% } %>
-        <% }); %>
-<!-- adicionar novo bloco -->
-<div class="row mt-4">
-    <div class="col">
-        <form action="/theme/<%= id %>/createblock/<%= id_item %>" method="get">
-            <button type="submit" class="btn btn-outline-primary float-end">
-                Adicionar Novo Bloco
-            </button>
-        </form>
-    </div>
-</div>
-    <% } %>
+                            <% } else { %>
+                                <div class="row">
+                                    <div class="col-9">
+                                        <div class="col">
+                                            <h2 class="text-center text-dark">
+                                                <%= f.title %>
+                                            </h2>
+                                            <p class="text-center text-dark">
+                                                <%= f.description %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="d-flex align-items-center justify-content-center bg-light"
+                                            style="width: 286px; height: 286px; overflow: hidden;">
+                                            <img src="<%= f.image %>" alt="Profile"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                    </div>
+                                    <!-- editar bloco -->
+                                    <div class="row mt-4">
+                                        <div class="col d-flex gap-2">
+                                            <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>"
+                                                method="get">
+                                                <button type="submit" class="btn btn-warning">Editar</button>
+                                            </form>
+                                            <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>"
+                                                method="post">
+                                                <button type="submit" class="btn btn-danger">Excluir</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                                    <% } %>
+                                        <% }); %>
+                                            <!-- adicionar novo bloco -->
+                                            <div class="row mt-4">
+                                                <div class="col">
+                                                    <form action="/theme/<%= id %>/createblock/<%= id_item %>"
+                                                        method="get">
+                                                        <button type="submit" class="btn btn-outline-primary float-end">
+                                                            Adicionar Novo Bloco
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <% } %>
 
-    
 
-<%- include('../components/layout_inf') %>
+
+                                                <%- include('../components/layout_inf') %>

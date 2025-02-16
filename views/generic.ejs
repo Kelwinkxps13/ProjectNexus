@@ -2,14 +2,22 @@
 
     <style>
         body {
-            background-color: #ffffff;
-            color: #000000;
+            background-color: #f4f7fc;
+            /* Fundo suave */
+            color: #2c3e50;
+            /* Texto escuro, suave */
             font-family: 'Arial', sans-serif;
+            /* Fonte clean */
+            margin: 0;
+            padding: 0;
         }
 
-        h2, h4 {
+        h2,
+        h4 {
             font-weight: bold;
             text-transform: uppercase;
+            color: #343a40;
+            /* Cor do título para contraste */
         }
 
         h2 {
@@ -32,6 +40,9 @@
         .btn-outline-primary {
             border: 2px solid #ff7f50;
             color: #ff7f50;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -52,9 +63,12 @@
             margin-top: 10px;
         }
 
-        .btn-primary {
+        /* .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
             transition: background-color 0.3s, border-color 0.3s;
         }
 
@@ -66,6 +80,9 @@
         .btn-warning {
             background-color: #ffc107;
             border-color: #ffc107;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
             transition: background-color 0.3s, border-color 0.3s;
         }
 
@@ -77,24 +94,36 @@
         .btn-danger {
             background-color: #dc3545;
             border-color: #dc3545;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
             transition: background-color 0.3s, border-color 0.3s;
         }
 
         .btn-danger:hover {
             background-color: #c82333;
             border-color: #c82333;
-        }
+        } */
 
         .card {
-            background-color: #f0f0f0;
+            background-color: #ffffff;
             color: #000000;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            /* Aumento da sombra no hover */
         }
 
         .card-header {
             background-color: #28a745;
             font-weight: bold;
+            color: white;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
         }
 
         .card-body {
@@ -110,17 +139,93 @@
             font-size: 1rem;
             margin-bottom: 15px;
         }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+
+        .bg-secondary {
+            background-color: #6c757d;
+            /* Cor suave para fundo de imagens */
+        }
+
+        .my-3 {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .float-end {
+            float: right;
+        }
+
+        .btn {
+            border-radius: 30px;
+            /* Botões arredondados */
+            padding: 6px 15px;
+            /* Tamanho confortável para os botões */
+            font-size: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Transição suave para hover */
+        }
+
+        .btn-warning {
+            background-color: #f39c12;
+            /* Cor de fundo suave */
+            border: none;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+            /* Cor mais forte no hover */
+            transform: scale(1.05);
+            /* Aumento suave no hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            /* Aumento da sombra no hover */
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            /* Cor de fundo suave para excluir */
+            border: none;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            /* Cor mais forte no hover */
+            transform: scale(1.05);
+            /* Aumento suave no hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            /* Aumento da sombra no hover */
+        }
     </style>
 
-    <h2 class="text-center my-3"><%= db_theme.title %></h2>
+    <h2 class="text-center my-3">
+        <%= db_theme.title %>
+    </h2>
 
     <div class="mt-4 text-center">
-        <p><%= db_theme.description %></p>
+        <p>
+            <%= db_theme.description %>
+        </p>
     </div>
 
     <div class="container">
         <% if (final_verification) {%>
-            <h2 class="text-center"> Não há nada para mostar? Adicione algo!</h2>
+            <h2 class="text-center"> Não há nada para mostrar? Adicione algo!</h2>
 
             <div class="row mt-4">
                 <div class="col">
@@ -164,7 +269,8 @@
                                                 </form>
                                             </div>
                                             <div class="col-4">
-                                                <form action="/theme/<%= db_theme.id %>/destroy/<%= f.id %>" method="post">
+                                                <form action="/theme/<%= db_theme.id %>/destroy/<%= f.id %>"
+                                                    method="post">
                                                     <button type="submit" class="btn btn-danger">Excluir</button>
                                                 </form>
                                             </div>
@@ -185,7 +291,6 @@
                         </form>
                     </div>
                 </div>
-
                 <% } %>
     </div>
 
