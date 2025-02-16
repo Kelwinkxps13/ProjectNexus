@@ -7,6 +7,7 @@ var router = express.Router();
 const db_main = path.join(__dirname, '../database', 'main.json');
 const db_themes = path.join(__dirname, '../database', 'themes.json');
 
+// Função para carregar dados do arquivo JSON
 const get_db_main = () => {
   const rawData = fs.readFileSync(db_main);
   return JSON.parse(rawData); // Convertendo o JSON para um objeto JavaScript
@@ -15,8 +16,12 @@ const get_db_themes = () => {
   const rawData = fs.readFileSync(db_themes);
   return JSON.parse(rawData); // Convertendo o JSON para um objeto JavaScript
 };
+// Função para salvar os dados no arquivo JSON
 const save_db_main = (data) => {
   fs.writeFileSync(db_main, JSON.stringify(data, null, 2)); // Salvando os dados no arquivo
+};
+const save_db_themes = (data) => {
+  fs.writeFileSync(db_themes, JSON.stringify(data, null, 2)); // Salvando os dados no arquivo
 };
 
 // ########################################################################################
@@ -164,4 +169,10 @@ router.get('/editor', function (req, res, next) {
     final_verification: final_verification
     });
 });
+
+// ########################################################################################
+
+
+// ########################################################################################
+
 module.exports = router;

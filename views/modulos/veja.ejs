@@ -139,99 +139,59 @@
     <!-- forma padrao de um bloco, com titulo, texto e imagem -->
     <!-- ideia do leandro: ir alternando onde a imagem fica, uma vez na esquerda, outra na direita -->
     <div class="container-fluid my-4">
-
-
-        <% if (is_deleted==total ) { %>
-
-            <h2 class="text-center text-dark"> Não tem nenhum bloco? adicione algum!</h2>
-
+        <% if (is_deleted == total) { %>
+            <h2 class="text-center text-dark">Não tem nenhum bloco? Adicione algum!</h2>
             <div class="row mt-4">
-                <div class="col">
+                <div class="col text-end">
                     <form action="/theme/<%= id %>/createblock/<%= id_item %>" method="get">
-                        <button type="submit" class="btn btn-outline-primary float-end">
-                            Adicionar Novo Bloco
-                        </button>
+                        <button type="submit" class="btn btn-outline-primary">Adicionar Novo Bloco</button>
                     </form>
                 </div>
             </div>
+        <% } else { %>
+            <% db_url.forEach(f => { %>
+                <% if (!f.is_deleted) { %>
 
-            <% } else { %>
-
-                <% db_url.forEach( f=> { %>
-                    <% if(f.is_deleted===false) { %>
-
-                        <% if(f.image===null ) { %>
-                            <div class="row">
-                                <div class="col">
-                                    <h2 class="text-center text-dark">
-                                        <%= f.title %>
-                                    </h2>
-                                    <p class="text-center text-dark">
-                                        <%= f.description %>
-                                    </p>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col d-flex gap-2">
-                                        <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>"
-                                            method="get">
-                                            <button type="submit" class="btn btn-warning">Editar</button>
-                                        </form>
-                                        <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>"
-                                            method="post">
-                                            <button type="submit" class="btn btn-danger">Excluir</button>
-                                        </form>
-                                    </div>
-                                </div>
+                    <% if (f.image) { %>
+                        <div class="row mb-4 my-4">
+                            <div class="col-md-9 d-flex flex-column justify-content-center text-break">
+                                <h2 class="text-center text-dark"><%= f.title %></h2>
+                                <p class="text-center text-dark"><%= f.description %></p>
                             </div>
-                            <% } else { %>
-                                <div class="row">
-                                    <div class="col-9">
-                                        <div class="col">
-                                            <h2 class="text-center text-dark">
-                                                <%= f.title %>
-                                            </h2>
-                                            <p class="text-center text-dark">
-                                                <%= f.description %>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="d-flex align-items-center justify-content-center bg-light"
-                                            style="width: 286px; height: 286px; overflow: hidden;">
-                                            <img src="<%= f.image %>" alt="Profile"
-                                                style="width: 100%; height: 100%; object-fit: cover;">
-                                        </div>
-                                    </div>
-                                    <!-- editar bloco -->
-                                    <div class="row mt-4">
-                                        <div class="col d-flex gap-2">
-                                            <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>"
-                                                method="get">
-                                                <button type="submit" class="btn btn-warning">Editar</button>
-                                            </form>
-                                            <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>"
-                                                method="post">
-                                                <button type="submit" class="btn btn-danger">Excluir</button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                <div class="col-md-3 d-flex align-items-center justify-content-center bg-light" 
+                                     style="max-width: 286px; max-height: 286px; overflow: hidden;">
+                                    <img src="<%= f.image %>" alt="Profile" class="img-fluid" style="object-fit: cover;">
                                 </div>
-                                <% } %>
-                                    <% } %>
-                                        <% }); %>
-                                            <!-- adicionar novo bloco -->
-                                            <div class="row mt-4">
-                                                <div class="col">
-                                                    <form action="/theme/<%= id %>/createblock/<%= id_item %>"
-                                                        method="get">
-                                                        <button type="submit" class="btn btn-outline-primary float-end">
-                                                            Adicionar Novo Bloco
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <% } %>
+                        </div>
+                    <% }else{ %>
+                        <div class="row mb-4 my-4">
+                            <div class="col-md-12 d-flex flex-column justify-content-center text-break">
+                                <h2 class="text-center text-dark"><%= f.title %></h2>
+                                <p class="text-center text-dark"><%= f.description %></p>
+                            </div>
+                        </div>
+                    <% } %>
 
-
-
-                                                <%- include('../components/layout_inf') %>
+                    <div class="row mt-2">
+                        <div class="col d-flex gap-2">
+                            <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>" method="get">
+                                <button type="submit" class="btn btn-warning">Editar</button>
+                            </form>
+                            <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>" method="post">
+                                <button type="submit" class="btn btn-danger">Excluir</button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+            <% }); %>
+            <div class="row mt-4">
+                <div class="col text-end">
+                    <form action="/theme/<%= id %>/createblock/<%= id_item %>" method="get">
+                        <button type="submit" class="btn btn-outline-primary">Adicionar Novo Bloco</button>
+                    </form>
+                </div>
+            </div>
+        <% } %>
+    </div>
+        <%- include('../components/layout_inf') %>
+    
