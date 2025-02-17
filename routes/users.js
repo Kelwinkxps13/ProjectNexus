@@ -8,4 +8,8 @@ router.get('/login', function(req, res, next) {
   })
 });
 
+router.get('/*', function (req,res) {
+  res.status(404).json({ err: "Não foi possivel encontrar essa página" });
+});
+
 module.exports = router;

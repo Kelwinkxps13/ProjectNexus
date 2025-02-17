@@ -70,7 +70,7 @@ router.post('/store', (req, res) => {
 
   const lastId = Math.max(...db_themes.map(u => u.id), 0);
   const newData = {
-    id: lastId+1,
+    id: lastId + 1,
     title: req.body.title,
     description: req.body.description,
     itens: [],
@@ -80,7 +80,7 @@ router.post('/store', (req, res) => {
   db_themes.push(newData);
   save_db_themes(db_themes);
 
-  res.redirect(`/theme/show/${lastId+1}`);
+  res.redirect(`/theme/show/${lastId + 1}`);
 });
 
 //show - lista o registro
@@ -92,8 +92,8 @@ router.get('/show/:id', function (req, res, next) {
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
   // verifica se o tamanho é zero
-  
-  
+
+
   console.log(db_theme_data)
   // pegando os dados dos itens
   const db_url = db_theme_data.itens
@@ -207,7 +207,7 @@ router.get('/:id/create', function (req, res, next) {
   res.render('modulos/base/create', {
     themes_foreach: db_themes,
     id: id,
-    title: 'Adicionar '+db_theme_data.title,
+    title: 'Adicionar ' + db_theme_data.title,
     page: db_theme_data.title
   });
 });
@@ -219,17 +219,26 @@ router.post('/:id/store', upload.single('image'), (req, res) => {
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
   const lastId = Math.max(...db_theme_data.itens.map(u => u.id), 0);
 
-  const theme_path = path.join(__dirname, '../public/images/theme', id.toString());
-  if (!fs.existsSync(theme_path)) {
-    fs.mkdirSync(theme_path, { recursive: true }); // Cria a pasta para o anime, se não existir
+  var image_status;
+  if (req.body.remove_image) {
+    image_status = null;
+  } else {
+
+    const theme_path = path.join(__dirname, '../public/images/theme', id.toString());
+    if (!fs.existsSync(theme_path)) {
+      fs.mkdirSync(theme_path, { recursive: true }); // Cria a pasta para o anime, se não existir
+    }
+    image_status = req.file ? `/images/theme/${id}/${req.file.filename}` : null;
   }
+
+
 
 
   const newData = {
     id: lastId + 1,
     title: req.body.title,
     description: req.body.description,
-    image: req.file ? `/images/theme/${id}/${req.file.filename}` : null,
+    image: image_status,
     long_description: [],
     is_deleted: false
   };
@@ -258,7 +267,7 @@ router.get('/:id/show/:iditem', function (req, res, next) {
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(+db_theme_data.title+' não encontrado');
+    return res.status(404).send(+db_theme_data.title + ' não encontrado');
   }
 
   // Renderiza a página com os dados do anime correspondente
@@ -286,7 +295,7 @@ router.get('/:id/edit/:id_item', function (req, res, next) {
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title+' não encontrado: ' + id);
+    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
   } else {
     // Renderiza a página com os dados do anime correspondente
     res.render('modulos/base/edit', {
@@ -310,24 +319,35 @@ router.post('/:id/update', upload.single('image'), function (req, res, next) {
   const id_item = parseInt(req.body.id_item);
   const k = db_theme_data.itens.find(item => item.id === parseInt(id_item));
 
-  const theme_path = path.join(__dirname, '../public/images/theme', id.toString());
-  if (!fs.existsSync(theme_path)) {
-    fs.mkdirSync(theme_path, { recursive: true }); // Cria a pasta para o anime, se não existir
-  }
 
-  if (!k) {
-    // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title+' não encontrado: ' + id);
+
+
+  if (req.body.remove_image) {
+    k.image = null;
   } else {
-    // Atualiza os dados do anime
-    k.title = req.body.title;
-    k.description = req.body.description;
 
+    const theme_path = path.join(__dirname, '../public/images/theme', id.toString());
+    if (!fs.existsSync(theme_path)) {
+      fs.mkdirSync(theme_path, { recursive: true }); // Cria a pasta para o anime, se não existir
+    }
     // Verifica se uma nova imagem foi enviada
     if (req.file) {
       // Se houver, salva a nova imagem e atualiza o caminho
       k.image = `/images/theme/${id}/${req.file.filename}`;
     }
+  }
+
+
+
+  if (!k) {
+    // Retorna 404 se o ID não for encontrado
+    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
+  } else {
+    // Atualiza os dados do anime
+    k.title = req.body.title;
+    k.description = req.body.description;
+
+
 
     // Salva os dados atualizados no arquivo JSON
     save_db_themes(db_themes);
@@ -349,7 +369,7 @@ router.post('/:id/destroy/:id_item', function (req, res, next) {
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title+' não encontrado: ' + id);
+    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
   } else {
     k.is_deleted = true
     save_db_themes(db_themes);
@@ -366,7 +386,7 @@ router.post('/:id/destroy/:id_item', function (req, res, next) {
 router.get('/:id/createblock/:id_item', function (req, res, next) {
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
-  
+
   const id_item = parseInt(req.params.id_item);
   res.render('modulos/block/create', {
     themes_foreach: db_themes,
@@ -398,10 +418,20 @@ router.post('/:id/storeblock', upload2.single('image'), (req, res) => {
 
   const lastId = Math.max(...k1.map(u => u.id), 0);
 
-  const theme_path = path.join(__dirname, '../public/images/theme', id.toString(), id_item.toString());
-  if (!fs.existsSync(theme_path)) {
-    fs.mkdirSync(theme_path, { recursive: true }); // Cria a pasta para o anime, se não existir
+
+  var image_status = null;
+  if (req.body.remove_image) {
+    image_status = null;
+  } else {
+
+    const theme_path = path.join(__dirname, '../public/images/theme', id.toString(), id_item.toString());
+    if (!fs.existsSync(theme_path)) {
+      fs.mkdirSync(theme_path, { recursive: true }); // Cria a pasta para o anime, se não existir
+    }
+    image_status = req.file ? `/images/theme/${id}/${id_item}/${req.file.filename}` : null;
   }
+
+
 
 
   // cria o novo bloco
@@ -409,7 +439,7 @@ router.post('/:id/storeblock', upload2.single('image'), (req, res) => {
     id: lastId + 1,
     title: req.body.title,
     description: req.body.description,
-    image: req.file ? `/images/theme/${id}/${id_item}/${req.file.filename}` : null,
+    image: image_status,
     is_deleted: false
   };
 
@@ -440,14 +470,14 @@ router.get('/:id/editblock/:id_item/:idblock', function (req, res, next) {
 
   if (!kblock) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title+' não encontrado: ' + id);
+    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
   } else {
     // Renderiza a página com os dados do anime correspondente
     res.render('modulos/block/edit', {
       themes_foreach: db_themes,
       title: 'Editando Bloco ' + kblock.title,
       db: kblock,
-      id_item: id_item ,
+      id_item: id_item,
       id: id// Passa os dados de animes para o template
     });
   }
@@ -460,7 +490,7 @@ router.post('/:id/updateblock', upload2.single('image'), function (req, res, nex
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
 
 
-  
+
   const id_item = parseInt(req.body.id_item);
   const k = db_theme_data.itens.find(item => item.id === parseInt(id_item));
   const k1 = k.long_description;
@@ -469,10 +499,23 @@ router.post('/:id/updateblock', upload2.single('image'), function (req, res, nex
   const kblock = k1.find(item => item.id === parseInt(idblock));
 
 
-  const animePath = path.join(__dirname, '../public/images/theme', id.toString(), id_item.toString());
-  if (!fs.existsSync(animePath)) {
-    fs.mkdirSync(animePath, { recursive: true }); // Cria a pasta para o anime, se não existir
+
+  if (req.body.remove_image) {
+    kblock.image = null;
+  } else {
+
+    const animePath = path.join(__dirname, '../public/images/theme', id.toString(), id_item.toString());
+    if (!fs.existsSync(animePath)) {
+      fs.mkdirSync(animePath, { recursive: true }); // Cria a pasta para o anime, se não existir
+    }
+    // Verifica se uma nova imagem foi enviada
+    if (req.file) {
+      // Se houver, salva a nova imagem e atualiza o caminho
+      kblock.image = `/images/theme/${id}/${id_item}/${req.file.filename}`;
+    }
   }
+
+
 
   if (!kblock) {
     // Retorna 404 se o ID não for encontrado
@@ -482,11 +525,6 @@ router.post('/:id/updateblock', upload2.single('image'), function (req, res, nex
     kblock.title = req.body.title;
     kblock.description = req.body.description;
 
-    // Verifica se uma nova imagem foi enviada
-    if (req.file) {
-      // Se houver, salva a nova imagem e atualiza o caminho
-      kblock.image = `/images/theme/${id}/${id_item}/${req.file.filename}`;
-    }
 
     // Salva os dados atualizados no arquivo JSON
     save_db_themes(db_themes);
@@ -512,7 +550,7 @@ router.post('/:id/destroyblock/:id_item/:idblock', function (req, res, next) {
 
   if (!kblock) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title+' não encontrado: ' + id);
+    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
   } else {
     kblock.is_deleted = true
     save_db_themes(db_themes);
@@ -525,7 +563,9 @@ router.post('/:id/destroyblock/:id_item/:idblock', function (req, res, next) {
 // #########################################################################################################
 
 
-
+router.get('/*', function (req, res) {
+  res.status(404).json({ err: "Não foi possivel encontrar essa página" });
+});
 
 
 module.exports = router;

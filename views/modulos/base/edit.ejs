@@ -1,132 +1,149 @@
 <%- include('../../components/layout_sup') %>
 
-<style>
-    /* Estilo geral */
-    body {
-        background-color: #f4f7fc; /* Fundo claro */
-        color: #2c3e50;
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    
-    /* Estilo para a navbar */
-    .navbar {
-        background: linear-gradient(135deg, rgba(0, 150, 255, 0.8), rgba(0, 255, 150, 0.8));
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Estilo para o card */
-    .custom-card {
-        background-color: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 15px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    
-    .custom-card:hover {
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-    
-    /* Estilo para o cabeçalho do card */
-    .custom-header {
-        background-color: #ffffff; /* Fundo neutro para não competir com a navbar */
-        color: #2c3e50;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Estilo dos inputs */
-    .custom-input {
-        background-color: #f9f9f9;
-        border: 1px solid #ccc;
-        color: #2c3e50;
-        border-radius: 8px;
-        padding: 15px;
-    }
-    
-    /* Estilo do botão */
-    .custom-btn {
-        background-color: #28a745;
-        border: none;
-        color: white;
-        padding: 15px 30px;
-        font-size: 18px;
-        border-radius: 30px;
-        cursor: pointer;
-    }
-    
-    .custom-btn:hover {
-        background-color: #218838;
-    }
-    
-    /* Outros ajustes */
-    .mb-4 {
-        margin-bottom: 1.5rem !important;
-    }
-    
-    .container {
-        padding: 30px;
-    }
-    
-    h3 {
-        text-transform: uppercase;
-        font-weight: bold;
-    }
+    <style>
+        /* Estilo geral */
+        body {
+            background-color: #f4f7fc;
+            /* Fundo claro */
+            color: #2c3e50;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-    @media (max-width: 768px) {
-    .custom-card {
-        margin: 10px;
-    }
-    .custom-btn {
-        padding: 10px 20px;
-    }
-    .custom-input {
-        padding: 10px;
-    }
-}
-    
+        /* Estilo para a navbar */
+        .navbar {
+            background: linear-gradient(135deg, rgba(0, 150, 255, 0.8), rgba(0, 255, 150, 0.8));
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para o card */
+        .custom-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilo para o cabeçalho do card */
+        .custom-header {
+            background-color: #ffffff;
+            /* Fundo neutro para não competir com a navbar */
+            color: #2c3e50;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo dos inputs */
+        .custom-input {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            color: #2c3e50;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        /* Estilo do botão */
+        .custom-btn {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .custom-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Outros ajustes */
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        h3 {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .custom-card {
+                margin: 10px;
+            }
+
+            .custom-btn {
+                padding: 10px 20px;
+            }
+
+            .custom-input {
+                padding: 10px;
+            }
+        }
     </style>
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10 col-12">
-            <div class="card custom-card">
-                <div class="card-header custom-header text-center fs-4 py-4">
-                    <strong>Formulário de Edição de <%= page %></strong>
-                </div>
-                <div class="card-body p-5">
-                    <form action="/theme/<%= id %>/update" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="id_item" value="<%= db.id %>">
-                        <input type="hidden" name="id" value="<%= id %>">
-                        
-                        <div class="mb-4">
-                            <label for="title" class="form-label">Nome</label>
-                            <input name="title" type="text" class="form-control custom-input" value="<%= db.title %>" placeholder="Digite o nome do projeto" required>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="description" class="form-label">Descrição</label>
-                            <textarea name="description" rows="4" class="form-control custom-input" placeholder="Descreva o que é isso" required><%= db.description %></textarea>
-                        </div>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-12">
+                <div class="card custom-card">
+                    <div class="card-header custom-header text-center fs-4 py-4">
+                        <strong>Formulário de Edição de <%= page %></strong>
+                    </div>
+                    <div class="card-body p-5">
+                        <form action="/theme/<%= id %>/update" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="id_item" value="<%= db.id %>">
+                            <input type="hidden" name="id" value="<%= id %>">
 
-                        <div class="mb-4">
-                            <label for="image" class="form-label">Alterar Imagem</label>
-                            <input name="image" type="file" class="form-control custom-input">
-                            <% if (db.image) { %>
-                                <div class="mt-2">
-                                    <img src="<%= db.image %>" alt="Imagem Atual" class="img-fluid" style="max-width: 200px; border-radius: 10px;">
+                            <div class="mb-4">
+                                <label for="title" class="form-label">Nome</label>
+                                <input name="title" type="text" class="form-control custom-input"
+                                    value="<%= db.title %>" placeholder="Digite o nome do projeto" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="description" class="form-label">Descrição</label>
+                                <textarea name="description" rows="4" class="form-control custom-input"
+                                    placeholder="Descreva o que é isso" required><%= db.description %></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="image" class="form-label">Alterar Imagem</label>
+                                <input name="image" type="file" class="form-control custom-input">
+                                <% if (db.image) { %>
+                                    <div class="mt-2">
+                                        <img src="<%= db.image %>" alt="Imagem Atual" class="img-fluid"
+                                            style="max-width: 200px; border-radius: 10px;">
+                                    </div>
+                                    <% } %>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="switch" class="form-label">Remover Imagem</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="switch" name="remove_image"
+                                        value="true">
+                                    <label class="form-check-label" for="switch">Marque para remover</label>
                                 </div>
-                            <% } %>
-                        </div>
+                            </div>
 
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn custom-btn">Enviar</button>
-                        </div>
-                    </form>
+
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn custom-btn">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<%- include('../../components/layout_inf') %>
+    <%- include('../../components/layout_inf') %>
