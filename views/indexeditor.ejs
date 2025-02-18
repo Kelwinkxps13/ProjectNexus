@@ -1,119 +1,39 @@
 <%- include('components/layout_sup') %>
 
-<style>
-/* Estilo geral */
-body {
-    background-color: #f4f7fc; /* Fundo claro, suave e clean */
-    color: #2c3e50; /* Cor do texto mais suave */
-    font-family: 'Arial', sans-serif; /* Fonte clean */
-    margin: 0;
-    padding: 0;
-}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-12">
+                <div class="card custom-card">
+                    <div class="card-header custom-header text-center fs-4 py-4">
+                        <strong>Formulário de Edição da Tela Inicial</strong>
+                    </div>
+                    <div class="card-body p-5">
+                        <form action="/update" method="POST">
+                            <div class="mb-4">
+                                <label for="title" class="form-label">Título</label>
+                                <input name="title" type="text" class="form-control custom-input" id="title"
+                                    placeholder="ex: olá mundo!" value="<%= main.title %>" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="subtitle" class="form-label">Subtítulo</label>
+                                <input name="subtitle" type="text" class="form-control custom-input" id="subtitle"
+                                    placeholder="ex: seja bem vindo(a) ao meu site!" value="<%= main.subtitle %>">
+                            </div>
+                            <div class="mb-4">
+                                <label for="description" class="form-label">Descrição</label>
+                                <textarea name="description" rows="4" class="form-control custom-input" id="description"
+                                    placeholder="ex: aqui vou postar algumas coisas que acho interessante."
+                                    required><%= main.description %></textarea>
+                            </div>
 
-/* Estilo para o navbar */
-.navbar {
-    background: linear-gradient(135deg, rgba(0, 150, 255, 0.8), rgba(0, 255, 150, 0.8)); /* Gradiente suave */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilo para o card */
-.custom-card {
-    background-color: #ffffff; /* Fundo branco e clean */
-    border: 1px solid #e0e0e0; /* Borda suave e clara */
-    border-radius: 15px; /* Bordas arredondadas */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    transition: all 0.3s ease; /* Transição suave */
-}
-
-.custom-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* Efeito de hover com sombra mais forte */
-}
-
-/* Estilo para o cabeçalho do card */
-.custom-header {
-    background-color: #ffffff; /* Fundo neutro para o cabeçalho */
-    color: #2c3e50; /* Texto escuro */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil no texto */
-    font-weight: bold;
-}
-
-/* Estilo dos inputs */
-.custom-input {
-    background-color: #f9f9f9; /* Fundo suave */
-    border: 1px solid #ccc; /* Borda leve */
-    color: #2c3e50; /* Texto escuro */
-    border-radius: 8px; /* Bordas arredondadas */
-    padding: 15px; /* Espaço interno confortável */
-    transition: all 0.3s ease; /* Transição suave */
-}
-
-/* Estilo do botão */
-.custom-btn {
-    background-color: #28a745; /* Verde suave */
-    border: none;
-    color: white;
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 30px; /* Botão arredondado */
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave para hover */
-}
-
-.custom-btn:hover {
-    background-color: #218838; /* Cor mais escura no hover */
-    transform: scale(1.05); /* Aumento suave no hover */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra mais forte no hover */
-}
-
-/* Ajuste no espaçamento dos campos */
-.mb-4 {
-    margin-bottom: 1.5rem !important;
-}
-
-/* Container com padding confortável */
-.container {
-    padding: 30px;
-}
-
-/* Título estilizado */
-h3 {
-    text-transform: uppercase;
-    font-weight: bold;
-    color: #2c3e50;
-}
-</style>
-
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10 col-12">
-            <div class="card custom-card">
-                <div class="card-header custom-header text-center fs-4 py-4">
-                    <strong>Formulário de Criação da Tela Inicial</strong>
-                </div>
-                <div class="card-body p-5">
-                    <form action="/store" method="POST">
-                        <div class="mb-4">
-                            <label for="title" class="form-label">Título</label>
-                            <input name="title" type="text" class="form-control custom-input" id="title" placeholder="Digite o nome do projeto" required>
-                        </div>
-                        <div class="mb-4">
-                            <label for="subtitle" class="form-label">Subtítulo</label>
-                            <input name="subtitle" type="text" class="form-control custom-input" id="subtitle" placeholder="Digite o nome do projeto" required>
-                        </div>
-                        <div class="mb-4">
-                            <label for="description" class="form-label">Descrição</label>
-                            <textarea name="description" rows="4" class="form-control custom-input" id="description" placeholder="Descreva o que é isso" required></textarea>
-                        </div>
-
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn custom-btn">Enviar</button>
-                        </div>
-                    </form>
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn custom-btn">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<%- include('components/layout_inf') %>
+    <%- include('components/layout_inf') %>

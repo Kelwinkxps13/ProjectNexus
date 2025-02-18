@@ -1,218 +1,5 @@
 <%- include('components/layout_sup') %>
 
-    <style>
-        body {
-            background-color: #f4f7fc;
-            /* Fundo suave */
-            color: #2c3e50;
-            /* Texto escuro, suave */
-            font-family: 'Arial', sans-serif;
-            /* Fonte clean */
-            margin: 0;
-            padding: 0;
-        }
-
-        h2,
-        h4 {
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #343a40;
-            /* Cor do título para contraste */
-        }
-
-        h2 {
-            margin-top: 20px;
-        }
-
-        .text-center p {
-            margin-bottom: 40px;
-            font-size: 1.1rem;
-        }
-
-        .container {
-            margin-top: 40px;
-        }
-
-        .container .row {
-            margin-bottom: 40px;
-        }
-
-        .btn-outline-primary {
-            border: 2px solid #ff7f50;
-            color: #ff7f50;
-            border-radius: 30px;
-            padding: 12px 30px;
-            font-size: 16px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: #ff7f50;
-            color: white;
-        }
-
-        .row-cols-1 {
-            margin-bottom: 10px;
-        }
-
-        footer {
-            margin-top: 60px;
-        }
-
-        .card-body .btn {
-            margin-top: 10px;
-        }
-
-        /* .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            border-radius: 30px;
-            padding: 12px 30px;
-            font-size: 16px;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            border-radius: 30px;
-            padding: 12px 30px;
-            font-size: 16px;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .btn-warning:hover {
-            background-color: #e0a800;
-            border-color: #e0a800;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            border-radius: 30px;
-            padding: 12px 30px;
-            font-size: 16px;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-            border-color: #c82333;
-        } */
-
-        .card {
-            background-color: #ffffff;
-            color: #000000;
-            border-radius: 12px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
-            /* Aumento da sombra no hover */
-        }
-
-        .card-header {
-            background-color: #28a745;
-            font-weight: bold;
-            color: white;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-        }
-
-        .card-body {
-            padding: 15px;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-
-        .card-text {
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
-
-        .d-flex {
-            display: flex;
-        }
-
-        .align-items-center {
-            align-items: center;
-        }
-
-        .justify-content-center {
-            justify-content: center;
-        }
-
-        .bg-secondary {
-            background-color: #6c757d;
-            /* Cor suave para fundo de imagens */
-        }
-
-        .my-3 {
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .float-end {
-            float: right;
-        }
-
-        .btn {
-            border-radius: 30px;
-            /* Botões arredondados */
-            padding: 6px 15px;
-            /* Tamanho confortável para os botões */
-            font-size: 16px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            /* Transição suave para hover */
-        }
-
-        .btn-warning {
-            background-color: #f39c12;
-            /* Cor de fundo suave */
-            border: none;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            /* Sombra suave */
-        }
-
-        .btn-warning:hover {
-            background-color: #e67e22;
-            /* Cor mais forte no hover */
-            transform: scale(1.05);
-            /* Aumento suave no hover */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            /* Aumento da sombra no hover */
-        }
-
-        .btn-danger {
-            background-color: #e74c3c;
-            /* Cor de fundo suave para excluir */
-            border: none;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            /* Sombra suave */
-        }
-
-        .btn-danger:hover {
-            background-color: #c0392b;
-            /* Cor mais forte no hover */
-            transform: scale(1.05);
-            /* Aumento suave no hover */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            /* Aumento da sombra no hover */
-        }
-    </style>
-
     <h2 class="text-center my-3">
         <%= db_theme.title %>
     </h2>
@@ -247,10 +34,10 @@
                                         <% if(f.image===null) { %>
                                             <img src="/images/no image.png" alt="Profile"
                                                 style="width: 100%; height: 100%; object-fit: cover;">
-                                            <% } else { %>
-                                                <img src="<%= f.image %>" alt="Profile"
-                                                    style="width: 100%; height: 100%; object-fit: cover;">
-                                                <% } %>
+                                        <% } else { %>
+                                            <img src="<%= f.image %>" alt="Profile"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        <% } %>
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-title">
@@ -259,24 +46,18 @@
                                         <p class="card-text">
                                             <%= f.description %>
                                         </p>
-                                        <div class="row">
-                                            <div class="col-4"><a href="/theme/<%= db_theme.id %>/show/<%= f.id %>"
-                                                    class="btn btn-primary">Veja!</a>
-                                            </div>
-                                            <div class="col-4">
-                                                <form action="/theme/<%= db_theme.id %>/edit/<%= f.id %>" method="get">
-                                                    <button type="submit" class="btn btn-warning">Editar</button>
-                                                </form>
-                                            </div>
-                                            <div class="col-4">
-                                                <form action="/theme/<%= db_theme.id %>/destroy/<%= f.id %>"
-                                                    method="post">
-                                                    <button type="submit" class="btn btn-danger">Excluir</button>
-                                                </form>
-                                            </div>
+                                        <div class="d-flex justify-content-center gap-3">
+                                            <a href="/theme/<%= db_theme.id %>/show/<%= f.id %>" class="btn btn-primary">Veja!</a>
+                                            <form action="/theme/<%= db_theme.id %>/edit/<%= f.id %>" method="get">
+                                                <button type="submit" class="btn btn-warning">Editar</button>
+                                            </form>
+                                            <form action="/theme/<%= db_theme.id %>/destroy/<%= f.id %>" method="post">
+                                                <button type="submit" class="btn btn-danger">Excluir</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                             <% } %>
                                 <% }); %>

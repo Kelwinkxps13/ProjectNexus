@@ -14,6 +14,16 @@ O site consiste na [Atividade N1](https://github.com/Kelwinkxps13/programacao-we
 ### Linguagem de Marcação
 - Express ejs
 
+---
+
+### Tutorial de Execução
+- caso não tenha, instale o node.js clicando [aqui](https://nodejs.org/en/download);
+- baixe esse repositório;
+- pelo terminal, entre na pasta raíz do projeto, (onde se localiza o **package.json**);
+- no terminal, execute **npm install** para baixar as dependências;
+- no terminal, execute **npm start** para executar o app;
+- no seu navegador, digite na url **localhost:3000** para entrar no site.
+
 
 ---
 

@@ -4,6 +4,27 @@ var fs = require('fs'); // Importando fs para manipulação de arquivos
 var router = express.Router();
 const multer = require('multer');
 
+var theme_created = false;
+var theme_edited = false;
+var theme_deleted = false;
+
+var item_created = false;
+var item_edited = false;
+var item_deleted = false;
+
+var block_created = false;
+var block_edited = false;
+var block_deleted = false;
+
+
+function verify_msg(conditional, message) {
+  var msg = 0;
+  if (conditional) {
+    msg = message;
+    conditional = false;
+  }
+  return msg;
+}
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const id = parseInt(req.params.id);
@@ -42,8 +63,13 @@ const upload = multer({ storage });
 const upload2 = multer({ storage: storage2 });
 
 // Caminho para o arquivo JSON
+const db_main = path.join(__dirname, '../database', 'main.json');
 const db_themes = path.join(__dirname, '../database', 'themes.json');
 
+const get_db_main = () => {
+  const rawData = fs.readFileSync(db_main);
+  return JSON.parse(rawData); // Convertendo o JSON para um objeto JavaScript
+};
 const get_db_themes = () => {
   const rawData = fs.readFileSync(db_themes);
   return JSON.parse(rawData); // Convertendo o JSON para um objeto JavaScript
@@ -52,11 +78,22 @@ const save_db_themes = (data) => {
   fs.writeFileSync(db_themes, JSON.stringify(data, null, 2)); // Salvando os dados no arquivo
 };
 
-
+function check_main(req, res) {
+  // pega o db main
+  const db_main = get_db_main();
+  // verifica se o tamanho é zero
+  const verify_db_main = db_main.length
+  // caso seu tamanho seja zero ou nulo
+  if (verify_db_main == 0 || verify_db_main == null) {
+    // redireciona para o index creator
+    res.redirect("/create")
+  }
+}
 // ########################################################################################
 
 //create - tela de criação
 router.get('/create', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   res.render('modulos/generic/create', {
     themes_foreach: db_themes,
@@ -66,6 +103,7 @@ router.get('/create', function (req, res, next) {
 
 //store - processa a criação o registro
 router.post('/store', (req, res) => {
+  check_main(req, res)
   const db_themes = get_db_themes();
 
   const lastId = Math.max(...db_themes.map(u => u.id), 0);
@@ -80,12 +118,13 @@ router.post('/store', (req, res) => {
   db_themes.push(newData);
   save_db_themes(db_themes);
 
+  theme_created = true
   res.redirect(`/theme/show/${lastId + 1}`);
 });
 
 //show - lista o registro
 router.get('/show/:id', function (req, res, next) {
-
+  check_main(req, res)
 
   // pega o db themes
   const db_themes = get_db_themes();
@@ -93,6 +132,9 @@ router.get('/show/:id', function (req, res, next) {
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
   // verifica se o tamanho é zero
 
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
   console.log(db_theme_data)
   // pegando os dados dos itens
@@ -108,7 +150,21 @@ router.get('/show/:id', function (req, res, next) {
     final_verification = true;
   }
 
+  var msg_success;
+  if (theme_created) {
+    msg_success = verify_msg(theme_created, "Tema criado com sucesso!")
+  } else if (theme_edited) {
+    msg_success = verify_msg(theme_edited, "Tema editado com sucesso!")
+  } else if (item_created) {
+    msg_success = verify_msg(item_created, "Item criado com sucesso!")
+  } else if (item_edited) {
+    msg_success = verify_msg(item_edited, "Item editado com sucesso!")
+  } else if (item_deleted) {
+    msg_success = verify_msg(item_deleted, "Item excluído com sucesso!")
+  }
+
   res.render('generic', {
+    msg_success: msg_success,
     themes_foreach: db_themes,
     id: id,
     title: db_theme_data.title,
@@ -120,13 +176,14 @@ router.get('/show/:id', function (req, res, next) {
 
 //edit - tela de edição
 router.get('/edit/:id', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes(); // Carregar os dados do JSON
   const id = parseInt(req.params.id);
   const k = db_themes.find(item => item.id === parseInt(id));
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send('Anime não encontrado: ' + id);
+    return res.status(404).json({ err: "Tema não encontrado! "+id });
   } else {
     // Renderiza a página com os dados do anime correspondente
     res.render('modulos/generic/edit', {
@@ -140,13 +197,14 @@ router.get('/edit/:id', function (req, res, next) {
 
 //update - processa a atualização o registro
 router.post('/update', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes(); // Carregar os dados do JSON
   const id = parseInt(req.body.id);
   const k = db_themes.find(item => item.id === parseInt(id));
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send('Tema não encontrado: ' + id);
+    return res.status(404).json({ err: "Tema não encontrado! "+id });
   } else {
     // Atualiza os dados do tema
     k.title = req.body.title;
@@ -156,6 +214,7 @@ router.post('/update', function (req, res, next) {
     // Salva os dados atualizados no arquivo JSON
     save_db_themes(db_themes);
 
+    theme_edited = true;
     // Redireciona para a página de animes
     res.redirect(`/theme/show/${k.id}`);
   }
@@ -163,18 +222,38 @@ router.post('/update', function (req, res, next) {
 
 //destroy - apaga um registro
 router.post('/destroy/:id', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes(); // Carregar os dados do JSON
   const id = parseInt(req.params.id);
   const k = db_themes.find(item => item.id === parseInt(id));
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send('Anime não encontrado: ' + id);
+    return res.status(404).json({ err: "Tema não encontrado! "+id });
   } else {
     k.is_deleted = true
     save_db_themes(db_themes);
     // Renderiza a página com os dados do anime correspondente
-    res.redirect('/editor')
+
+
+    const total = db_themes.length
+    const is_deleted = db_themes.filter(item => item.is_deleted === true).length;
+    let final_verification = false;
+
+    // condicional caso o tanto de temas deletados seja igual o tanto de temas totais
+    if (total - is_deleted == 0) {
+      final_verification = true;
+    }
+
+
+    theme_deleted = true;
+    var msg_success = verify_msg(theme_deleted, "tema excluído com sucesso!")
+    res.render('editor', {
+      msg_success: msg_success,
+      themes_foreach: db_themes,
+      title: 'Edição',
+      final_verification: final_verification
+    });
   }
 
 });
@@ -184,9 +263,13 @@ router.post('/destroy/:id', function (req, res, next) {
 
 //index - lista os registros
 router.get('/:id', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
   const is_deleted = db.filter(item => item.is_deleted === true).length;
   const total = db.length;
   res.render('modulos/generic', {
@@ -201,9 +284,13 @@ router.get('/:id', function (req, res, next) {
 
 //create - tela de criação
 router.get('/:id/create', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
   res.render('modulos/base/create', {
     themes_foreach: db_themes,
     id: id,
@@ -214,9 +301,13 @@ router.get('/:id/create', function (req, res, next) {
 
 //store - processa a criação o registro
 router.post('/:id/store', upload.single('image'), (req, res) => {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
   const lastId = Math.max(...db_theme_data.itens.map(u => u.id), 0);
 
   var image_status;
@@ -246,15 +337,21 @@ router.post('/:id/store', upload.single('image'), (req, res) => {
   db_theme_data.itens.push(newData);
   save_db_themes(db_themes);
 
+
+  item_created = true;
   res.redirect(`/theme/show/${id}`);
 });
 
 //show - mostra UM registro
 router.get('/:id/show/:iditem', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
 
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
   const iditem = parseInt(req.params.iditem); // Obtém o ID da rota e converte para número
 
@@ -267,11 +364,21 @@ router.get('/:id/show/:iditem', function (req, res, next) {
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(+db_theme_data.title + ' não encontrado');
+    return res.status(404).json({ err: db_theme_data.title + ' não encontrado'});
   }
+
+  var msg_success;
+    if (block_created) {
+      msg_success = verify_msg(block_created, "Bloco criado com sucesso!")
+    } else if (block_edited) {
+      msg_success = verify_msg(block_edited, "Bloco editado com sucesso!")
+    } else if (block_deleted) {
+      msg_success = verify_msg(block_deleted, "Bloco excluído com sucesso!")
+    }
 
   // Renderiza a página com os dados do anime correspondente
   res.render('modulos/veja', {
+    msg_success: msg_success,
     themes_foreach: db_themes,
     title: k.title,
     db_url: k1, // Passa os dados do anime para o template
@@ -284,10 +391,14 @@ router.get('/:id/show/:iditem', function (req, res, next) {
 
 //edit - tela de edição
 router.get('/:id/edit/:id_item', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
 
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
 
   const id_item = parseInt(req.params.id_item);
@@ -295,9 +406,10 @@ router.get('/:id/edit/:id_item', function (req, res, next) {
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
+    return res.status(404).json({ err: db_theme_data.title + ' não encontrado: ' + id});
   } else {
     // Renderiza a página com os dados do anime correspondente
+
     res.render('modulos/base/edit', {
       themes_foreach: db_themes,
       page: db_theme_data.title,
@@ -310,10 +422,14 @@ router.get('/:id/edit/:id_item', function (req, res, next) {
 
 //update - processa a atualização o registro
 router.post('/:id/update', upload.single('image'), function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
 
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
 
   const id_item = parseInt(req.body.id_item);
@@ -341,7 +457,7 @@ router.post('/:id/update', upload.single('image'), function (req, res, next) {
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
+    return res.status(404).json({ err: db_theme_data.title + ' não encontrado: ' + id});
   } else {
     // Atualiza os dados do anime
     k.title = req.body.title;
@@ -353,27 +469,33 @@ router.post('/:id/update', upload.single('image'), function (req, res, next) {
     save_db_themes(db_themes);
 
     // Redireciona para a página de animes
+    item_edited = true;
     res.redirect(`/theme/show/${id}`);
   }
 });
 
 //destroy - apaga um registro
 router.post('/:id/destroy/:id_item', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
 
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
   const id_item = parseInt(req.params.id_item);
   const k = db_theme_data.itens.find(item => item.id === parseInt(id_item));
 
   if (!k) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
+    return res.status(404).json({ err: db_theme_data.title + ' não encontrado: ' + id});
   } else {
     k.is_deleted = true
     save_db_themes(db_themes);
     // Renderiza a página com os dados do anime correspondente
+    item_deleted = true;
     res.redirect(`/theme/show/${id}`)
   }
 
@@ -384,8 +506,13 @@ router.post('/:id/destroy/:id_item', function (req, res, next) {
 
 //create block
 router.get('/:id/createblock/:id_item', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
+  const db_theme_data = db_themes.find(item => item.id === parseInt(id))
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
   const id_item = parseInt(req.params.id_item);
   res.render('modulos/block/create', {
@@ -398,10 +525,14 @@ router.get('/:id/createblock/:id_item', function (req, res, next) {
 
 //store block
 router.post('/:id/storeblock', upload2.single('image'), (req, res) => {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
 
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
 
 
@@ -449,6 +580,7 @@ router.post('/:id/storeblock', upload2.single('image'), (req, res) => {
   // salva
   save_db_themes(db_themes);
 
+  block_created = true;
   res.redirect(`/theme/${id}/show/${id_item}`);
 });
 
@@ -457,9 +589,13 @@ router.post('/:id/storeblock', upload2.single('image'), (req, res) => {
 
 //edit block
 router.get('/:id/editblock/:id_item/:idblock', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
   const id_item = parseInt(req.params.id_item);
   const k = db_theme_data.itens.find(item => item.id === parseInt(id_item));
@@ -470,7 +606,7 @@ router.get('/:id/editblock/:id_item/:idblock', function (req, res, next) {
 
   if (!kblock) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
+    return res.status(404).json({ err: db_theme_data.title + ' não encontrado: ' + id});
   } else {
     // Renderiza a página com os dados do anime correspondente
     res.render('modulos/block/edit', {
@@ -485,10 +621,14 @@ router.get('/:id/editblock/:id_item/:idblock', function (req, res, next) {
 
 //update block
 router.post('/:id/updateblock', upload2.single('image'), function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
 
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
 
   const id_item = parseInt(req.body.id_item);
@@ -519,7 +659,7 @@ router.post('/:id/updateblock', upload2.single('image'), function (req, res, nex
 
   if (!kblock) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send('Bloco não encontrado: ' + id_item);
+    return res.status(404).json({ err: 'Bloco não encontrado: ' + id_item});
   } else {
     // Atualiza os dados do anime
     kblock.title = req.body.title;
@@ -530,16 +670,21 @@ router.post('/:id/updateblock', upload2.single('image'), function (req, res, nex
     save_db_themes(db_themes);
 
     // Redireciona para a página de animes
+    block_edited = true;
     res.redirect(`/theme/${id}/show/${id_item}`);
   }
 });
 
 //destroy block
 router.post('/:id/destroyblock/:id_item/:idblock', function (req, res, next) {
+  check_main(req, res)
   const db_themes = get_db_themes();
   const id = parseInt(req.params.id);
   const db_theme_data = db_themes.find(item => item.id === parseInt(id))
 
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
 
   const id_item = parseInt(req.params.id_item);
   const k = db_theme_data.itens.find(item => item.id === parseInt(id_item));
@@ -550,12 +695,13 @@ router.post('/:id/destroyblock/:id_item/:idblock', function (req, res, next) {
 
   if (!kblock) {
     // Retorna 404 se o ID não for encontrado
-    return res.status(404).send(db_theme_data.title + ' não encontrado: ' + id);
+    return res.status(404).json({ err: db_theme_data.title + ' não encontrado: ' + id});
   } else {
     kblock.is_deleted = true
     save_db_themes(db_themes);
     // Renderiza a página com os dados do anime correspondente
-    res.redirect(`/theme/${id}/show/${id}`)
+    block_deleted = true;
+    res.redirect(`/theme/${id}/show/${id_item}`)
   }
 
 });
