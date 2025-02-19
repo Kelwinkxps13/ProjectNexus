@@ -5,6 +5,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+    padding-top: 60px;
 }
 
 /* Estilo para a navbar */
@@ -294,4 +295,14 @@ footer {
 
 .shadow-sm {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white; /* Ajuste conforme o layout */
+    z-index: 1000; /* Para manter acima de outros elementos */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Opcional: adiciona uma sombra */
 }
