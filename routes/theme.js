@@ -369,15 +369,61 @@ router.get('/:id/show/:iditem', function (req, res, next) {
 
   var msg_success;
     if (block_created) {
-      msg_success = verify_msg(block_created, "Bloco criado com sucesso!")
+      msg_success = verify_msg(block_created, "Conteúdo criado com sucesso!")
     } else if (block_edited) {
-      msg_success = verify_msg(block_edited, "Bloco editado com sucesso!")
+      msg_success = verify_msg(block_edited, "Conteúdo editado com sucesso!")
     } else if (block_deleted) {
-      msg_success = verify_msg(block_deleted, "Bloco excluído com sucesso!")
+      msg_success = verify_msg(block_deleted, "Conteúdo excluído com sucesso!")
     }
 
   // Renderiza a página com os dados do anime correspondente
   res.render('modulos/veja', {
+    msg_success: msg_success,
+    themes_foreach: db_themes,
+    title: k.title,
+    db_url: k1, // Passa os dados do anime para o template
+    id_item: k.id,
+    id: id,
+    is_deleted: is_deleted,
+    total: total
+  });
+});
+
+router.get('/:id/show/:iditem/editor', function (req, res, next) {
+  check_main(req, res)
+  const db_themes = get_db_themes();
+  const id = parseInt(req.params.id);
+  const db_theme_data = db_themes.find(item => item.id === parseInt(id))
+
+  if (!db_theme_data) {
+    return res.status(404).json({ err: "Tema não encontrado!" });
+  }
+
+  const iditem = parseInt(req.params.iditem); // Obtém o ID da rota e converte para número
+
+  // Filtra o item correspondente ao ID
+  const k = db_theme_data.itens.find(item => item.id === parseInt(iditem));
+  const k1 = k.long_description;
+
+  const is_deleted = k1.filter(item => item.is_deleted === true).length;
+  const total = k1.length;
+
+  if (!k) {
+    // Retorna 404 se o ID não for encontrado
+    return res.status(404).json({ err: db_theme_data.title + ' não encontrado'});
+  }
+
+  var msg_success;
+    if (block_created) {
+      msg_success = verify_msg(block_created, "Conteúdo criado com sucesso!")
+    } else if (block_edited) {
+      msg_success = verify_msg(block_edited, "Conteúdo editado com sucesso!")
+    } else if (block_deleted) {
+      msg_success = verify_msg(block_deleted, "Conteúdo excluído com sucesso!")
+    }
+
+  // Renderiza a página com os dados do anime correspondente
+  res.render('modulos/vejaeditor', {
     msg_success: msg_success,
     themes_foreach: db_themes,
     title: k.title,

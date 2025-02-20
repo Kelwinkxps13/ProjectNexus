@@ -1,0 +1,38 @@
+<%- include('../components/layout_sup') %>
+    <div class="container py-4">
+
+        <div class="row mt-5">
+            <div class="col">
+                <h2 class="mb-3">Conteúdo(s) de <%= title %></h2>
+
+                <% if (is_deleted==total) { %>
+                    <h2 class="text-center text-dark">Sem Conteúdos para editar!</h2>
+                    <% } else { %>
+                        <% db_url.forEach(f=> { %>
+                            <% if (!f.is_deleted) { %>
+
+                                <!-- ESTRUTURA -->
+                                <div class="card mb-4 shadow-sm">
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                            <%= f.title %>
+                                        </h4>
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <form action="/theme/<%= id %>/editblock/<%= id_item %>/<%= f.id %>"
+                                                method="get">
+                                                <button type="submit" class="btn btn-warning">Editar</button>
+                                            </form>
+                                            <form action="/theme/<%= id %>/destroyblock/<%= id_item %>/<%= f.id %>"
+                                                method="post">
+                                                <button type="submit" class="btn btn-danger">Excluir</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                                    <% }); %>
+                                        <% } %>
+            </div>
+        </div>
+    </div>
+    <%- include('../components/layout_inf') %>
