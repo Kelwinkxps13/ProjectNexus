@@ -65,13 +65,38 @@ description 2 -->
 
   <% if(final_verification){ %>
     <div class="text-center mt-4">
-      <h2 class="mb-4">Não tem nenhum tema? Adicione algum!</h2>
+      <h2 class="mb-4">Não tem nenhuma categoria? Adicione alguma!</h2>
       <form action="/theme/create" method="get">
         <button type="submit" class="btn btn-outline-primary">
-          Adicionar Novo Tema
+          Adicionar Nova Categoria
         </button>
       </form>
     </div>
-    <% } %>
+    <% } else { %>
+      <div class="row mt-5">
+        <div class="col">
+          <h2 class="mb-3">Suas Categorias</h2>
 
-      <%- include('components/layout_inf') %>
+          <% themes_foreach.forEach(f=> { %>
+            <% if(f.is_deleted==false) { %>
+              <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                  <h4 class="card-title">
+                    <%= f.title %>
+                  </h4>
+                  <div class="d-flex justify-content-end gap-2 float-end">
+                    <form action="/theme/show/<%= f.id %>" method="get">
+                      <button type="submit" class="btn btn-warning">
+                        Ver Categoria
+                      </button>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+              <% } %>
+                <% }) %>
+                  <% } %>
+
+
+                    <%- include('components/layout_inf') %>

@@ -8,6 +8,9 @@ var is_main_created = false;
 var main_was_created = false;
 var edited_main = false;
 
+var theme_created = false;
+var theme_edited = false;
+
 
 var theme_deleted = false;
 
@@ -20,9 +23,21 @@ function verify_msg(conditional, message) {
   return msg;
 }
 
-// Caminho para o arquivo JSON
+// 1. Definir os caminhos dos arquivos JSON
 const db_main = path.join(__dirname, '../database', 'main.json');
 const db_themes = path.join(__dirname, '../database', 'themes.json');
+
+// 2. Função para garantir que o arquivo exista
+function ensureFileExists(filePath, defaultContent = {}) {
+    if (!fs.existsSync(filePath)) {
+        console.log(`Arquivo ${filePath} não encontrado. Criando...`);
+        fs.writeFileSync(filePath, JSON.stringify(defaultContent, null, 4), 'utf8');
+    }
+}
+
+// 3. Criar os arquivos se não existirem, com um conteúdo padrão
+ensureFileExists(db_main, []);
+ensureFileExists(db_themes, []);
 
 // Função para carregar dados do arquivo JSON
 const get_db_main = () => {
@@ -95,6 +110,10 @@ router.get('/', function (req, res, next) {
       msg_success = verify_msg(edited_main, "pagina principal editada com sucesso!")
     } else if (is_main_created) {
       msg_success = verify_msg(is_main_created, "pagina principal criada com sucesso!")
+    } else if (theme_created) {
+      msg_success = verify_msg(theme_created, "Categoria criada com sucesso!")
+    } else if (theme_edited) {
+      msg_success = verify_msg(theme_edited, "Categoria editada com sucesso!")
     }
 
     if (final_verification) {
@@ -218,13 +237,94 @@ router.get('/editor', function (req, res, next) {
     final_verification = true;
   }
 
+  var msg_success;
+  msg_success = verify_msg(theme_deleted, "Categoria excluída com sucesso!")
+
   res.render('editor', {
+    msg_success: msg_success,
     themes_foreach: db_themes,
     title: 'Edição',
     final_verification: final_verification
   });
 });
 
+
+// criação, edição e exclusão de uma categoria
+
+router.post('/theme/store', (req, res) => {
+  check_main(req, res)
+  const db_themes = get_db_themes();
+
+  const lastId = Math.max(...db_themes.map(u => u.id), 0);
+  const newData = {
+    id: lastId + 1,
+    title: req.body.title,
+    description: req.body.description,
+    itens: [],
+    is_deleted: false
+  };
+
+  db_themes.push(newData);
+  save_db_themes(db_themes);
+
+  theme_created = true
+  res.redirect(`/`);
+});
+
+router.post('/theme/update', function (req, res, next) {
+  check_main(req, res)
+  const db_themes = get_db_themes(); // Carregar os dados do JSON
+  const id = parseInt(req.body.id);
+  const k = db_themes.find(item => item.id === parseInt(id));
+
+  if (!k) {
+    // Retorna 404 se o ID não for encontrado
+    return res.status(404).json({ err: "Tema não encontrado! "+id });
+  } else {
+    // Atualiza os dados do tema
+    k.title = req.body.title;
+    k.subtitle = req.body.subtitle;
+    k.description = req.body.description;
+
+    // Salva os dados atualizados no arquivo JSON
+    save_db_themes(db_themes);
+
+    theme_edited = true;
+    // Redireciona para a página de animes
+    res.redirect(`/`);
+  }
+});
+
+router.post('/theme/destroy/:id', function (req, res, next) {
+  check_main(req, res)
+  const db_themes = get_db_themes(); // Carregar os dados do JSON
+  const id = parseInt(req.params.id);
+  const k = db_themes.find(item => item.id === parseInt(id));
+
+  if (!k) {
+    // Retorna 404 se o ID não for encontrado
+    return res.status(404).json({ err: "Tema não encontrado! "+id });
+  } else {
+    k.is_deleted = true
+    save_db_themes(db_themes);
+    // Renderiza a página com os dados do anime correspondente
+
+
+    const total = db_themes.length
+    const is_deleted = db_themes.filter(item => item.is_deleted === true).length;
+    let final_verification = false;
+
+    // condicional caso o tanto de temas deletados seja igual o tanto de temas totais
+    if (total - is_deleted == 0) {
+      final_verification = true;
+    }
+
+
+    theme_deleted = true;
+    res.redirect('/editor')
+  }
+
+});
 // ########################################################################################
 
 router.get('/*', function (req, res) {

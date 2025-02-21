@@ -22,7 +22,7 @@ body {
     /* Bordas mais arredondadas */
     border: 1px solid #e0e0e0;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
     overflow: hidden;
     /* Garante que o conteúdo não transborde */
     position: relative;
@@ -32,7 +32,7 @@ body {
 .custom-card:hover {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     /* Sombra mais intensa no hover */
-    transform: translateY(-5px);
+    /* transform: translateY(-5px); */
     /* Pequeno movimento para cima */
 }
 
