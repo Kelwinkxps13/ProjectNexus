@@ -1,4 +1,4 @@
 /node_modules
 /public/images/theme
-/database/*
-!/database/.gitkeep
+/database/main.json
+/database/themes.json
