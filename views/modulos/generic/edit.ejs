@@ -8,7 +8,7 @@
                         <strong>Formulário de Edição de Categoria</strong>
                     </div>
                     <div class="card-body p-5">
-                        <form action="/theme/update" method="POST">
+                        <form action="/theme/update" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="id" value="<%= db.id %>">
 
                             <div class="mb-4">
@@ -21,6 +21,26 @@
                                 <label for="description" class="form-label">Descrição</label>
                                 <textarea name="description" rows="4" class="form-control custom-input"
                                 placeholder="ex: parte reservada para mostrar meus favoritos." required><%= db.description %></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="image" class="form-label">Alterar Banner de fundo</label>
+                                <input name="image" type="file" class="form-control custom-input">
+                                <% if (db.image) { %>
+                                    <div class="mt-2">
+                                        <img src="<%= db.image %>" alt="Banner de fundo Atual" class="img-fluid"
+                                            style="max-width: 200px; border-radius: 10px;">
+                                    </div>
+                                    <% } %>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="switch" class="form-label">Remover Banner de fundo</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="switch" name="remove_image"
+                                        value="true">
+                                    <label class="form-check-label" for="switch">Marque para remover</label>
+                                </div>
                             </div>
 
                             <div class="text-center mt-4">

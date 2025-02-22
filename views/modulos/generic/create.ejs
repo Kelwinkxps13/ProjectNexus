@@ -8,7 +8,7 @@
                         <strong>Formulário de Criação de Categoria</strong>
                     </div>
                     <div class="card-body p-5">
-                        <form action="/theme/store" method="POST">
+                        <form action="/theme/store" method="POST" enctype="multipart/form-data">
                             <div class="mb-4">
                                 <label for="title" class="form-label">Nome</label>
                                 <input name="title" type="text" class="form-control custom-input" id="title"
@@ -18,6 +18,11 @@
                                 <label for="description" class="form-label">Descrição</label>
                                 <textarea name="description" rows="4" class="form-control custom-input" id="description"
                                     placeholder="ex: parte reservada para mostrar meus favoritos." required></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="image" class="form-label">Adicionar Banner de fundo</label>
+                                <input name="image" type="file" class="form-control custom-input" id="image">
                             </div>
 
                             <div class="text-center mt-4">

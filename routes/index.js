@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs'); // Importando fs para manipulação de arquivos
 var router = express.Router();
+const multer = require('multer');
 
 var has_main = false
 var is_main_created = false;
@@ -22,6 +23,25 @@ function verify_msg(conditional, message) {
   }
   return msg;
 }
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, '../public/images/theme/banner');
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true }); // Cria a pasta se não existir
+    }
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    const uniqueName = `${Date.now()}-${Math.random().toString(36).substring(7)}${ext}`;
+    cb(null, uniqueName);
+  }
+});
+
+const upload = multer({ storage });
+
 
 // 1. Definir os caminhos dos arquivos JSON
 const db_main = path.join(__dirname, '../database', 'main.json');
@@ -251,15 +271,29 @@ router.get('/editor', function (req, res, next) {
 
 // criação, edição e exclusão de uma categoria
 
-router.post('/theme/store', (req, res) => {
+router.post('/theme/store', upload.single('image'), (req, res) => {
   check_main(req, res)
   const db_themes = get_db_themes();
 
   const lastId = Math.max(...db_themes.map(u => u.id), 0);
+
+  var image_status;
+  if (req.body.remove_image) {
+    image_status = null;
+  } else {
+
+    const theme_path = path.join(__dirname, '../public/images/theme/banner');
+    if (!fs.existsSync(theme_path)) {
+      fs.mkdirSync(theme_path, { recursive: true }); // Cria a pasta para o anime, se não existir
+    }
+    image_status = req.file ? `/images/theme/banner/${req.file.filename}` : null;
+  }
+  console.log(image_status)
   const newData = {
     id: lastId + 1,
     title: req.body.title,
     description: req.body.description,
+    image: image_status,
     itens: [],
     is_deleted: false
   };
@@ -271,7 +305,7 @@ router.post('/theme/store', (req, res) => {
   res.redirect(`/`);
 });
 
-router.post('/theme/update', function (req, res, next) {
+router.post('/theme/update', upload.single('image'), (req, res) => {
   check_main(req, res)
   const db_themes = get_db_themes(); // Carregar os dados do JSON
   const id = parseInt(req.body.id);
@@ -281,6 +315,22 @@ router.post('/theme/update', function (req, res, next) {
     // Retorna 404 se o ID não for encontrado
     return res.status(404).json({ err: "Tema não encontrado! "+id });
   } else {
+
+    if (req.body.remove_image) {
+        k.image = null;
+      } else {
+    
+        const theme_path = path.join(__dirname, '../public/images/theme/banner');
+        if (!fs.existsSync(theme_path)) {
+          fs.mkdirSync(theme_path, { recursive: true }); // Cria a pasta para o anime, se não existir
+        }
+        // Verifica se uma nova imagem foi enviada
+        if (req.file) {
+          // Se houver, salva a nova imagem e atualiza o caminho
+          k.image = `/images/theme/banner/${req.file.filename}`;
+        }
+      }
+
     // Atualiza os dados do tema
     k.title = req.body.title;
     k.subtitle = req.body.subtitle;
