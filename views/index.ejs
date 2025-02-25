@@ -48,6 +48,8 @@ description 2 -->
 
 <%- include('components/layout_sup') %>
 
+  <h5 class="mb-5">Dica: Dê uma olhadinha no <a href="/editor">editor</a> para ter acesso a personalização de suas coisas!</h5>
+
   <div class="text-center">
     <h3 class="display-4 fw-bold">
       <%= db_main.title %> 👋
@@ -57,15 +59,17 @@ description 2 -->
     </h3>
   </div>
 
-  <div class="mt-5">
+  <div class="mt-5 mb-5">
     <p class="lead">
       <%= db_main.description %>
     </p>
   </div>
 
   <% if(final_verification){ %>
-    <div class="text-center mt-4">
-      <h2 class="mb-4">Não tem nenhuma categoria? Adicione alguma!</h2>
+    <br>
+    <br>
+    <div class="text-center mb-4 my-4">
+      <h4 class="mb-4 my-4">Não tem nenhuma categoria? Adicione alguma!</h4>
       <form action="/theme/create" method="get">
         <button type="submit" class="btn btn-outline-primary">
           Adicionar Nova Categoria
