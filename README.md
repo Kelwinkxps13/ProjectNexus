@@ -1,6 +1,16 @@
 # ProjectNexus
 
+# Sobre o ProjectNexus
+
 O site consiste na [Atividade N1](https://github.com/Kelwinkxps13/programacao-web-1/tree/main/Atividade%20N1) da disciplina de Programação Web 1, do professor José Roberto, no IFCE - Campus de Fortaleza, melhorada.
+
+# Ideia Inicial do projeto
+
+A ideia do site gira em torno de algo como uma Rede Social, onde os usuários compartilham suas idéias e interesses com outros usuários
+
+## Como Funciona esse compartilhamento?
+
+o usuário que deseja criar algo para compartilhar ele poderá criar sua primeira **categoria**
 
 ### Ferramentas
 - Visual Studio Code
