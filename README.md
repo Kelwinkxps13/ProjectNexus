@@ -21,6 +21,8 @@ Cada **bloco de conteúdo** consiste basicamente três elementos:
   - Texto: aqui, o usuário poderá adicionar o texto como desejado (obrigatório);
   - Imagem: uma imagem que representa aquele bloco de conteúdo (não obrigatório).
 
+<!-- ### Sobre a tela de um item -->
+
 ## Exemplo para fins de entendimento:
 ---
   - Categoria (1) : Filmes
