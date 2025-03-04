@@ -194,26 +194,6 @@ router.get('/edit/:id', function (req, res, next) {
 // ########################################################################################
 
 
-//index - lista os registros
-router.get('/:id', function (req, res, next) {
-  check_main(req, res)
-  const db_themes = get_db_themes();
-  const id = parseInt(req.params.id);
-  const db_theme_data = db_themes.find(item => item.id === parseInt(id))
-  if (!db_theme_data) {
-    return res.status(404).json({ err: "Tema não encontrado!" });
-  }
-  const is_deleted = db.filter(item => item.is_deleted === true).length;
-  const total = db.length;
-  res.render('modulos/generic', {
-    themes_foreach: db_themes,
-    title: db_theme_data.title,
-    db_url: db_theme_data.itens,
-    is_deleted: is_deleted,
-    total: total,
-    id: id
-  });
-});
 
 //create - tela de criação
 router.get('/:id/create', function (req, res, next) {
